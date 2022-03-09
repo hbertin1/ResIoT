@@ -1,5 +1,8 @@
 let express = require('express')
 let app = express()
+let cors = require('cors')
+
+app.use(cors())
 
 app.get('/', (request, response) => {
   response.send('Bonjour')
