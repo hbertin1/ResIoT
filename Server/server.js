@@ -1,21 +1,18 @@
-let express = require('express')
-let app = express()
-let cors = require('cors')
+const express = require('express');
+const router = require('./router');
 
-app.use(cors())
+const cors = require('cors');
+const morgan = require('morgan');
+const bodyParser = require("body-parser");
+const app = express();
 
-app.get('/', (request, response) => {
-  response.send('Bonjour')
-})
-app.get('/demo', (request, response) => {
-  response.send('Bonjour je suis la démo')
-})
+const port = process.env.PORT || 8080;
 
-app.get('/knx', (request, response) => {
-    response.redirect('http://localhost:3000/')
-  })
-app.post('/', (request, response) => {
-    // Traitement des données
-})
-
-app.listen(8080)
+app.use(morgan('combined')); 
+app.use(cors()); 
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+app.use(router); // Requests processing will be defined in the file router
+app.listen(port, () => console.log('Server app listening on port ' + port));
