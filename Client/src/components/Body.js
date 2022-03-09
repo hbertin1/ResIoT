@@ -22,7 +22,7 @@ function leds_list() {
 
 
 function sendStartSignal() {
-    axios.get(`http://`+urlServer+`?signal=on`)
+    axios.get(`http://`+urlServer+`/chenillard?signal=on`)
         .then(response => (console.log(response)))
         .catch(function (error) {
             // handle error
