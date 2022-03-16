@@ -1,41 +1,52 @@
 import '../styles/Body.css'
+import Led from './Led'
 import { useState } from 'react'
 const axios = require('axios');
 
-
-
-const leds = [1, 2, 3, 4, 5, 6, 7]
 const urlServer = '127.0.0.1:8080'
 
-
-
-
-function leds_list() {
+function leds_table() {
     return (
-        <ul>
-            {leds.map((led) => (
-                <li>led {led}</li>
-            ))}
-        </ul>
+        <div>
+            <table>
+                <tr>
+                    <td><Led id={1} /></td>
+                    <td><Led id={2} /></td>
+                    <td><Led id={3} /></td>
+                    <td><Led id={4} /></td>
+                    <td><Led id={5} /></td>
+                    <td><Led id={6} /></td>
+                    <td><Led id={7} /></td>
+                    <td><Led id={8} /></td>
+                    <td><Led id={9} /></td>
+                </tr>
+            </table>
+        </div>
     )
 }
 
-
+// TODO: how changing the leds preview when the chenillard is running
 function sendStartSignal() {
-    axios.get(`http://`+urlServer+`/chenillard?signal=on`)
+    let res = false;
+
+    axios.get(`http://`+urlServer+`/led?signal=on&number=on`)
         .then(response => (console.log(response)))
         .catch(function (error) {
             // handle error
             console.log(error);
         })
+    
+    // handle acknowledgment
+    return res;
 }
 
 function Body() {
     const [running, setRunning] = useState(0)
 
+
     return (
-        <div>
-            {leds_list()}
+        <div class="tableChenillard">
+            {leds_table()}
             <button onClick={() => sendStartSignal()}>Start the Chenillard</button>
         </div>
     )

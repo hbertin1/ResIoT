@@ -1,6 +1,18 @@
 .knx-banner {
-    color: rgb(216, 44, 44);
+    color: rgb(24, 18, 18);
     text-align: left;
     padding: 32px;
-    border-bottom: solid 3px black;
+}
+
+h1 {
+    text-align: center;
+    font-size: 80px;
+}
+
+img {
+    margin: left 0;
+}
+
+background {
+    background-color: rgba(20, 163, 27, 0);
 }
