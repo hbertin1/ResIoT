@@ -3,7 +3,7 @@ const axios = require('axios')
 
 const urlServer = '127.0.0.1:8080'
 
-function sendSignalLed(currentState) {
+function sendSignalLed(currentState, id) {
     let res = false
     let signal = `on`
     if (currentState) signal = `off`
@@ -26,7 +26,7 @@ function Led({id}) {
             <ul>
                 <li>{ id }</li>
                 <li>{ state ? '🔴' : '🟢' }</li>
-                <li><button onClick={() => sendSignalLed(state)? updateState(!state):updateState(!state)}>Start</button></li>
+                <li><button onClick={() => sendSignalLed(state, id)? updateState(!state):updateState(!state)}>Start</button></li>
             </ul>
         </div>)
 }

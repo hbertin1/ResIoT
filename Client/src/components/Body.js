@@ -49,7 +49,7 @@ function Body() {
         <div class="tableChenillard">
             {leds_table()}
             <button onClick={() => sendStartSignalChenillard(chenillardState) ? 
-                    updateChenillardState(!state):updateChenillardState(!state)}>
+                    updateChenillardState(!chenillardState):updateChenillardState(!chenillardState)}>
                 Start the Chenillard
             </button>
         </div>
