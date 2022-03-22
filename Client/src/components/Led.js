@@ -1,12 +1,14 @@
 import { useState } from 'react'
-const axios = require('axios');
+const axios = require('axios')
 
 const urlServer = '127.0.0.1:8080'
 
-function sendStartSignalLed() {
-    let res = false;
+function sendSignalLed(currentState) {
+    let res = false
+    let signal = `on`
+    if (currentState) signal = `off`
 
-    axios.get(`http://`+urlServer+`/led?signal=on&number=on`)
+    axios.get(`http://` +urlServer+ `/led?signal=` +signal+ `&number=`+id)
         .then(response => (console.log(response)))
         .catch(function (error) {
             // handle error
@@ -24,7 +26,7 @@ function Led({id}) {
             <ul>
                 <li>{ id }</li>
                 <li>{ state ? '🔴' : '🟢' }</li>
-                <li><button onClick={() => sendStartSignalLed()? updateState(!state):updateState(!state)}>Start</button></li>
+                <li><button onClick={() => sendSignalLed(state)? updateState(!state):updateState(!state)}>Start</button></li>
             </ul>
         </div>)
 }
