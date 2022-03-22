@@ -1,5 +1,7 @@
 const express = require("express");
+//const { ReadableStreamBYOBRequest } = require("stream/web");
 const router = express.Router();
+const urlServer = '127.0.0.1:8080'
 
 module.exports = router;
 
@@ -13,6 +15,18 @@ router
     .get('/knx', (request, response) => {
         response.redirect('http://localhost:3000/')
     })
-    .post('/', (request, response) => {
-        // Traitement des données
+    .get('/chenillard', (request, response) => {
+        if(request.query.signal === 'on')
+            console.log("Chenillard On")
+            response.send("Ack Chenillard")
+    })
+    .get('/led', (request, response) => {
+        if(request.query.signal === 'on'){
+            console.log( 'Led' + request.query.signal + ' ON')
+            response.send("Ack Led ON")
+        }
+        else if(request.query.signal === 'off'){
+            console.log( 'Led' + request.query.signal + ' OFF')
+            response.send("Ack Led ON")
+        }
     })
