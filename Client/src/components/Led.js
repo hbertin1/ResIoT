@@ -9,15 +9,18 @@ function sendSignalLed(currentState, id) {
     if (currentState) signal = `off`
 
     axios.get(`http://` +urlServer+ `/led?signal=` +signal+ `&number=`+id)
-        .then(response => (console.log(response)))
-        .catch(function (error) {
+        .then(response => {
+            if(response.data == `Ack Led ON`) res = true
+            console.log(response)
+            })
+        .catch(error =>
             // handle error
-            console.log(error);
-        })
-    // add acknowledgment to modify res
-    res = true; // temp to test
+            console.log(error)
+        )
     return res;
 }
+
+
 
 function Led({id}) {
     const [state, updateState] = useState(false)
