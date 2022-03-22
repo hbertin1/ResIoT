@@ -5,9 +5,24 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  border-left: 300px none;
+  border-right: 300px none;
+  background: url(../assets/plage.jpg) scroll repeat;
+  color:black;
+  text-align: center;
+  /* background-color: aqua; */
+}
+
+table {
+  padding: auto;
+  margin: auto;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+ul {
+  list-style: None;
 }
