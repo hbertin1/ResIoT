@@ -26,10 +26,12 @@ function leds_table() {
 }
 
 // TODO: how changing the leds preview when the chenillard is running
-function sendStartSignal() {
+function sendStartSignalChenillard(currentState) {
     let res = false;
+    let signal = `on`
+    if (currentState) signal = `off`
 
-    axios.get(`http://`+urlServer+`/led?signal=on&number=on`)
+    axios.get(`http://`+urlServer+`/chenillard?signal=`+ signal)
         .then(response => (console.log(response)))
         .catch(function (error) {
             // handle error
@@ -41,13 +43,15 @@ function sendStartSignal() {
 }
 
 function Body() {
-    const [running, setRunning] = useState(0)
-
+    const [chenillardState, updateChenillardState] = useState(false)
 
     return (
         <div class="tableChenillard">
             {leds_table()}
-            <button onClick={() => sendStartSignal()}>Start the Chenillard</button>
+            <button onClick={() => sendStartSignalChenillard(chenillardState) ? 
+                    updateChenillardState(!chenillardState):updateChenillardState(!chenillardState)}>
+                Start the Chenillard
+            </button>
         </div>
     )
 }
