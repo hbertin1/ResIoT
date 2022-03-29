@@ -1,9 +1,21 @@
 import '../styles/Body.css'
 import Led from './Led'
 import { useState } from 'react'
-const axios = require('axios');
+const axios = require('axios')
+const WebSocket = require('ws')
 
-const urlServer = '127.0.0.1:8080'
+const urlServer = 'ws://127.0.0.1:8080'
+
+const client = new WebSocket(urlServer)
+
+client.on('open', () => {
+    client.send('test connard')
+})
+
+client.onmessage = function (event) {
+    // on recoit un json
+    console.log(event.data)
+}
 
 function leds_table() {
     return (
