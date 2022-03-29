@@ -22,11 +22,11 @@ router
     })
     .get('/led', (request, response) => {
         if(request.query.signal === 'on'){
-            console.log( 'Led' + request.query.signal + ' ON')
+            console.log( 'Led' + request.query.number + ' ON')
             response.send("Ack Led ON")
         }
         else if(request.query.signal === 'off'){
-            console.log( 'Led' + request.query.signal + ' OFF')
-            response.send("Ack Led ON")
+            console.log( 'Led' + request.query.number + ' OFF')
+            response.send("Ack Led OFF")
         }
     })
