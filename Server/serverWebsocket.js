@@ -7,7 +7,8 @@ const app = express();
 // events that come in.
 const wsServer = new ws.Server({ noServer: true });
 wsServer.on('connection', socket => {
-  socket.on('message', message => console.log(message));
+  socket.on('message', message => console.log(JSON.parse(message)));
+  socket.send('hello')
 });
 
 // `server` is a vanilla Node.js HTTP server, so use

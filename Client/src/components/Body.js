@@ -1,21 +1,14 @@
-import '../styles/Body.css'
 import Led from './Led'
+import { store } from './Store'
 import { useState } from 'react'
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 const axios = require('axios')
-const WebSocket = require('ws')
 
-const urlServer = 'ws://127.0.0.1:8080'
+const urlServer = 'ws://127.0.0.1:8000'
+const client = new W3CWebSocket('ws://127.0.0.1:8000');
 
-const client = new WebSocket(urlServer)
-
-client.on('open', () => {
-    client.send('test connard')
-})
-
-client.onmessage = function (event) {
-    // on recoit un json
-    console.log(event.data)
-}
 
 function leds_table() {
     return (
@@ -26,11 +19,6 @@ function leds_table() {
                     <td><Led id={2} /></td>
                     <td><Led id={3} /></td>
                     <td><Led id={4} /></td>
-                    <td><Led id={5} /></td>
-                    <td><Led id={6} /></td>
-                    <td><Led id={7} /></td>
-                    <td><Led id={8} /></td>
-                    <td><Led id={9} /></td>
                 </tr>
             </table>
         </div>
@@ -56,6 +44,18 @@ function sendStartSignalChenillard(currentState) {
 
 function Body() {
     const [chenillardState, updateChenillardState] = useState(false)
+
+    client.onopen = () => {
+        console.log('WebSocket Client Connected');
+    };
+    client.onmessage = (message) => {
+        console.log(message);
+        let dataReceived = JSON.parse(message)
+        console.log(dataReceived.numberLed);
+    };
+
+    const dispatch = useDispatch()
+    
 
     return (
         <div class="tableChenillard">
