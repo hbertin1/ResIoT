@@ -29,7 +29,6 @@ wsServer.on('connection', socket => {
     
     
   })
-
 });
 
 // `server` is a vanilla Node.js HTTP server, so use
