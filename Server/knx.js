@@ -1,4 +1,5 @@
 const {Led} = require('../Server/led.js');
+const {Chenillard} = require('../Server/chenillard.js');
 
 const start = process.hrtime.bigint(); // récupère le temps au début du programme 
 
@@ -12,7 +13,7 @@ class Knx{
         this.knx = [];       //tableau contenant les leds
         this.numberLed = numberLed;
         this.addLed(this.numberLed);    //ajout des led dans le tableau
-
+        this.chenillard = new Chenillard(false, 1, true);
     }
 
     /**
@@ -29,6 +30,14 @@ class Knx{
         console.log(this.knx)
     }
 
+     /**
+     * retourne la led correspondante
+     * @param {nombre de LED} numberLed
+     */
+      getLed(numberLed){
+        return this.knx[numberLed-1];
+    }
+
     /**
      * Retourne le nombre de la de la knx
      */
@@ -37,16 +46,14 @@ class Knx{
     }
 
     /**
-     * Chenillard
-     * @param {LED} led
-     * @param {nombre de LED} numberLed
+     * @returns chenillard 
      */
-    chenillard(state, speed){
-
+     getChenillard(){
+        return this.chenillard;
     }
 
     toJSON(){
-        return JSON.stringify({"knx" : this.knx, "numberLed": this.numberLed});
+        return JSON.stringify({"knx" : this.knx, "numberLed": this.numberLed, "chenillard":this.chenillard});
     }
 
 
