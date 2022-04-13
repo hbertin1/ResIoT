@@ -1,7 +1,11 @@
 const express = require("express");
 //const { ReadableStreamBYOBRequest } = require("stream/web");
 const router = express.Router();
-const urlServer = '127.0.0.1:8080'
+const ws = require('ws');
+const { Led } = require('../Server/led.js');
+const { Knx } = require('../Server/knx.js');
+const { Chenillard } = require('./chenillard.js');
+const knx = new Knx(4); //création du knx virtuel 
 
 module.exports = router;
 
@@ -16,17 +20,39 @@ router
         response.redirect('http://localhost:3000/')
     })
     .get('/chenillard', (request, response) => {
-        if(request.query.signal === 'on')
-            console.log("Chenillard On")
-            response.send("Ack Chenillard")
+        var chenillard = knx.getChenillard();
+        switch (request.query.signal) {
+            case 'on':
+                console.log(knx)
+                console.log(knx.getChenillard().getStateChe())
+                if (!chenillard.getStateChe()) {        //Chenillard eteint
+                    chenillard.setStateChe();    //Chenillard eteint donc on allume
+                    response.send('Ack Chenillard on : ' + chenillard.getStateChe())
+                }
+                //Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
+                var speedChe = request.query.speed;     //Vitesse du chenillard           
+                if (speedChe != chenillard.getSpeed()) {  //Verification de la vitesse du chenillard
+                    chenillard.setSpeed(speedChe);      //Modification de la vitesse du chenillard
+                }
+                var directionChe = request.query.direction; //direction du chenillard (true = right, false = left)                
+                if (directionChe != chenillard.getDirection()) {  //Verification de la direction du chenillard
+                    chenillard.setDirection(directionChe);      //Modification de la direction du chenillard
+                }
+                break;
+            case 'off':
+                if (chenillard.getStateChe) {         //Chenillard allumé
+                    chenillard.changeStateChe();    //Chenillard eteint donc on allume
+                }
+                break;
+        }  
     })
     .get('/led', (request, response) => {
-        if(request.query.signal === 'on'){
-            console.log( 'Led' + request.query.number + ' ON')
+        if (request.query.signal === 'on') {
+            console.log('Led' + request.query.number + ' ON')
             response.send("Ack Led ON")
         }
-        else if(request.query.signal === 'off'){
-            console.log( 'Led' + request.query.number + ' OFF')
+        else if (request.query.signal === 'off') {
+            console.log('Led' + request.query.number + ' OFF')
             response.send("Ack Led OFF")
         }
     })

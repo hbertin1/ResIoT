@@ -16,15 +16,15 @@ class Chenillard{
      * Modifie l'etat du chenillard
      * @param {etat de la LED} state 
      */
-     setStateChe(stateChe) {
-        this.stateChe = stateChe;
+     setStateChe() {
+        this.stateChe = !this.stateChe;
     }
 
     /**
      * @returns l'etat du chenillard
      */
-    getStateChe(stateChe) {
-        return this.stateChe = stateChe;
+    getStateChe() {
+        return this.stateChe;
     }
 
     /**
