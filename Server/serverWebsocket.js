@@ -26,16 +26,16 @@ wsServer.on('connection', socket => {
           socket.send(knx.toJSON())
           break
         case "led":
-          var changeLed = knx.getLed(msg.id)    //récupération de la led à modifier
+          var changeLed = knx.getLed(msg.id)  //récupération de la led à modifier
           switch(msg.change){
             case "state":
-              changeLed.setState(msg.state) //changement de l'état de la led
+              changeLed.setState(msg.state)   //changement de l'état de la led
               break
             case "lum":
-              changeLed.setLum(msg.lum)     //modification de la lumière de la led
+              changeLed.setLum(msg.lum)       //modification de la lumière de la led
               break
             case "color":
-              changeLed.setColor(msg.color) //modification de la couleur de la led
+              changeLed.setColor(msg.color)   //modification de la couleur de la led
               break
           }
           break
@@ -44,13 +44,13 @@ wsServer.on('connection', socket => {
           console.log()
           switch(msg.change){
             case "stateChe":
-              chenillard.setStateChe(msg.stateChe)       //Change l'etat du chenillard
+              chenillard.setStateChe(msg.stateChe)    //Change l'etat du chenillard
               break
             case "speed":
               chenillard.setSpeed(msg.speed)          //Modifie la vitesse du chenillard
               break
             case "direction":
-              chenillard.setDirection(msg.direction)  //Modifie le sense du chenillard
+              chenillard.setDirection(msg.direction)  //Modifie le sens du chenillard
               break
           }
           break
