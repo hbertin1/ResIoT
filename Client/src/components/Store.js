@@ -13,9 +13,10 @@ export const onOff = (deviceId) => ({
   "id": deviceId
 });
 
-export const addLed = (id) => ({
+export const addLed = (id, connect) => ({
   "type": "addLed",
-  "id": id
+  "id": id,
+  "connected": connect
 });
 
 export const restartLed = { "type": "restart" };
@@ -35,24 +36,22 @@ function reducer(state = initialState, action) {
     let led = undefined
     led = {
       "id": action.id,
+      "connected": action.connected,
       "state": false,
       "color": "white"
     }
-    console.log("push"+ JSON.stringify({ 
-      "id": action.id,
-      "state": false,
-      "color": "white"
-    }))
-
     state.leds.splice(action.id-1, 1, led)
-    console.log("2"+JSON.stringify(state.leds))
   }
 
   if (action.type === "onOff") {
     const index = action.id-1
-    const led = state.leds[index]
-    led.state = !led.state
-    state.leds[index] = led
+    let copy_leds = state.leds
+    let led_to_modify = copy_leds[index]
+    let state2change = led_to_modify.state
+    led_to_modify.state = !state2change
+    copy_leds.splice(index, 1, led_to_modify)
+    console.log(copy_leds)
+    return { ...state, leds:copy_leds };
   }
 
   console.log(state)
