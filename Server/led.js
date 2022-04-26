@@ -27,8 +27,8 @@ class Led{
      * 
      * @returns l'etat de la LED
      */
-    getState() {
-        return this.state;
+    getState(state) {
+        return this.state = state;
     }
 
     /**
@@ -67,7 +67,7 @@ class Led{
      * Modifie la couleur de la LED
      * @param {couleur de la LED} color 
      */
-     setCoulor(color) {
+     setColor(color) {
         this.color = color;
     }
 

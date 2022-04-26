@@ -1,6 +1,18 @@
+const urlServer = '//127.0.0.1:8000'
+
+//const client = new ('//127.0.0.1:8000');
+const axios = require('axios')
+axios.get(`http://`+urlServer+`/chenillard?signal=`+ 'on')
+        .then(response => (console.log(response)))
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+    
+/** 
 const ws = require('ws');
 
-const client = new ws('ws://localhost:8080');
+const client = new ws('ws://localhost:8000');
 
 client.on('open', () => {
     client.send(JSON.stringify({"action" : "led", "id":1, "change":"state", "state":true}));            //changement de l'état de la led
@@ -15,3 +27,4 @@ client.onmessage = function (data){
     data = JSON.parse(data.data)
     console.log(data)
 }
+*/

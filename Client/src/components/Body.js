@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 const axios = require('axios')
 
-const urlServer = 'ws://127.0.0.1:8000'
+const urlServer = '//127.0.0.1:8000'
 const client = new W3CWebSocket('ws://127.0.0.1:8000');
 
 function Body() {
