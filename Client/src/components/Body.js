@@ -3,34 +3,11 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { useDispatch } from 'react-redux'
 import ChenillardBtn from './chenillardBtn'
 const axios = require('axios')
-
-const axios = require('axios')
 const urlServer = '//127.0.0.1:8000'
 const client = new W3CWebSocket('ws://127.0.0.1:8000');
 
 function Body() {
     const dispatch = useDispatch()
-    const ledNumber = useSelector((state) => state.ledNumber)
-
-
-    
-
-
-    // client.onopen = () => {
-    //     console.log('WebSocket Client Connected');
-    //     client.send(JSON.stringify({"connexion":true}))
-    // };
-    // client.onmessage = (message) => {
-    //     console.log(message);
-    //     let dataReceived = JSON.parse(message.data)
-    //     console.log(dataReceived.knx)
-    //     dispatch({
-    //         "type": "setLedNumber",
-    //         "number": 5
-    //       })    
-    // };
-    const stateLed = useSelector((state) => state.leds[1])
-    console.log(stateLed)
 
     client.onopen = () => {
         console.log('WebSocket Client Connected');
@@ -58,8 +35,6 @@ function Body() {
                     </tr>
                 </table>
             </div>}
-            led Number
-            {console.log(useSelector((state) => state.leds[1]))}
             <div>
                 <ChenillardBtn/>
             </div>
