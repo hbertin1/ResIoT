@@ -15,6 +15,10 @@ const wsServer = new ws.Server({ noServer: true });
 wsServer.on('connection', socket => {
   socket.on('message', function (data) {
     msg = JSON.parse(data.toString("utf8"))
+    switch (msg.type) {
+      case "start":
+        console.log("start")
+    }
     console.log("Connexion KNX " + msg.connexion)
 
     //Lors de la connection envoie des données de la knx
@@ -34,7 +38,7 @@ wsServer.on('connection', socket => {
 // `server` is a vanilla Node.js HTTP server, so use
 // the same ws upgrade process described here:
 // https://www.npmjs.com/package/ws#multiple-servers-sharing-a-single-https-server
-const server = app.listen(8080);
+const server = app.listen(8000);
 server.on('upgrade', (request, socket, head) => {
   wsServer.handleUpgrade(request, socket, head, socket => {
     wsServer.emit('connection', socket, request);

@@ -1,26 +1,13 @@
-const WebSocket = require('ws')
-const store = require('store')
+import { store } from './Store'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 
-const urlServer = 'ws://127.0.0.1:8000'
+const dispatch = useDispatch()
+const ledNumber = useSelector((state) => state.ledNumber)
 
-const client = new WebSocket(urlServer)
-
-client.on('open', () => {
-    client.send('test connard')
-})
-
-client.onmessage = function (event) {
-    // on recoit un json
-    console.log(event)
-    switch (event) {
-        case 'running':
-
-        break;
-        case 'stoped':
-
-        break;
-    }
-}
-
-
+dispatch({
+    "type": "setLedNumber",
+    "number": 5
+  })
+console.log(ledNumber)

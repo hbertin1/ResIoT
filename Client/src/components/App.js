@@ -1,6 +1,6 @@
 import Banner from './Banner'
 import Body from './Body'
-import Cart from './Cart'
+import Display from './Display'
 
 
 // function reducer(state, action) {
@@ -18,7 +18,7 @@ function App() {
     <div>
       <Banner />
       <Body/>
-      {/* <Cart /> */}
+      <Display id={1}/>
     </div>
   )
 }

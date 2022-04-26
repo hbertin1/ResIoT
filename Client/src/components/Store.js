@@ -25,24 +25,37 @@ function reducer(state = initialState, action) {
     return initialState;
   }
 
+  if(action.type === "setLedNumber") {
+    console.log(action.number)
+    state.ledNumber = action.number
+    return state
+  }
+
   if (action.type === "addLed") {
-    const led = {
+    let led = undefined
+    led = {
       "id": action.id,
       "state": false,
       "color": "white"
     }
-    state.leds.push(led);   // pas forcement le bon index
-    console.log(state.leds)
+    console.log("push"+ JSON.stringify({ 
+      "id": action.id,
+      "state": false,
+      "color": "white"
+    }))
+
+    state.leds.splice(action.id-1, 1, led)
+    console.log("2"+JSON.stringify(state.leds))
   }
 
   if (action.type === "onOff") {
-    const ledId = action.id
-    const led = state.leds[ledId]
+    const index = action.id-1
+    const led = state.leds[index]
     led.state = !led.state
-    state.leds[ledId] = led
-    
-    return { ...state };
+    state.leds[index] = led
   }
+
+  console.log(state)
   
   return state;
 }
