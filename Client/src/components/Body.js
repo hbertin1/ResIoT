@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import ChenillardBtn from './chenillardBtn'
 const axios = require('axios')
 
 const urlServer = '//127.0.0.1:8000'
@@ -13,6 +14,9 @@ function Body() {
     const [chenillardState, updateChenillardState] = useState(false)
     const dispatch = useDispatch()
     const ledNumber = useSelector((state) => state.ledNumber)
+
+
+    
 
 
     // client.onopen = () => {
@@ -45,18 +49,9 @@ function Body() {
             </div>}
             led Number
             {console.log(useSelector((state) => state.leds[1]))}
-            <button onClick={() => {
-                dispatch({
-                    "type": "setLedNumber",
-                    "number": 5
-                })
-                // client.send(JSON.stringify({ "type": "start"}))
-            }
-                // sendStartSignalChenillard(chenillardState) ? 
-                //         updateChenillardState(!chenillardState):updateChenillardState(!chenillardState)
-            }>
-                Start the Chenillard
-            </button>
+            <div>
+                <ChenillardBtn/>
+            </div>
         </div>
     )
 }

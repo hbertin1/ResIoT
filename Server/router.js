@@ -26,7 +26,7 @@ router
                 console.log(knx)
                 console.log(knx.getChenillard().getStateChe())
                 if (!chenillard.getStateChe()) {        //Chenillard eteint
-                    chenillard.setStateChe();    //Chenillard eteint donc on allume
+                    chenillard.setStateChe(true);    //Chenillard eteint donc on allume
                     response.send('Ack Chenillard on : ' + chenillard.getStateChe())
                 }
                 //Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
@@ -41,7 +41,8 @@ router
                 break;
             case 'off':
                 if (chenillard.getStateChe) {         //Chenillard allumé
-                    chenillard.changeStateChe();    //Chenillard eteint donc on allume
+                    chenillard.setStateChe(false);    //Chenillard eteint donc on allume
+                    response.send('Ack Chenillard on : ' + chenillard.getStateChe())
                 }
                 break;
         }  
