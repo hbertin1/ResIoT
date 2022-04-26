@@ -3,43 +3,24 @@
 
 import Body from './Body'
 import Display from './Display'
-import { useState } from 'react'
-import { store } from './Store'
 import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { onOff, addLed } from "./Store";
+
 const axios = require('axios')
-
 const urlServer = '127.0.0.1:8000'
-
 
 function Led({ id }) {
 
-    // const [state, updateState] = useState(false)
     const dispatch = useDispatch()
-    const stateLed = useSelector((state) => state.leds[id])
-    // console.log(stateLed.state)
-    // const state = useSelector(state => state.leds[id].state)
-
-
-    dispatch({
-        "type": "addLed",
-        "id": id
-    })
-
-
-
-    const ledNumber = useSelector((state) => state.ledNumber)
-    const leds = useSelector((state) => state.leds)
+    dispatch(addLed(id, true))
 
     return (<div>
         <ul>
             <li>{id}</li>
             <li>{<Display id={id} />}</li>
             <li><button onClick={() => {
-                dispatch({ "type": "onOff", "id": id })
-                console.log("stateLed")
-                console.log(leds)
+                dispatch(onOff(id))
                 {<Display id={id} />}
                 // client.send(JSON.stringify({"type":"LED", "id":id, "action":"onOff"}))
             }}>Start</button></li>
