@@ -21,10 +21,7 @@ function Led({ id }) {
             <li>{<Display id={id} />}</li>
             <li><button onClick={() => {
                 dispatch(onOff(id))
-<<<<<<< HEAD
                 // client.send(JSON.stringify({"type":"LED", "id":id, "action":"onOff"}))
-=======
->>>>>>> aa122577ac3c70492ffbcf86afa028d93669a84e
             }}>Start</button></li>
         </ul>
     </div>)
