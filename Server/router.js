@@ -19,15 +19,13 @@ router
     .get('/knx', (request, response) => {
         response.redirect('http://localhost:3000/')
     })
-    .get('/chenillard', (request, response) => {
+    .get('/chenillard', (request, response) => {    //Réception des commandes sur le chenillard
         var chenillard = knx.getChenillard();
         switch (request.query.signal) {
             case 'on':
-                console.log(knx)
-                console.log(knx.getChenillard().getStateChe())
                 if (!chenillard.getStateChe()) {        //Chenillard eteint
                     chenillard.setStateChe(true);    //Chenillard eteint donc on allume
-                    response.send('Ack Chenillard on : ' + chenillard.getStateChe())
+                    response.send('Ack Chenillard on : ' + chenillard.getStateChe())    //Envoie d'un message d'ACK au client
                 }
                 //Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
                 var speedChe = request.query.speed;     //Vitesse du chenillard           
@@ -42,23 +40,22 @@ router
             case 'off':
                 if (chenillard.getStateChe) {         //Chenillard allumé
                     chenillard.setStateChe(false);    //Chenillard eteint donc on allume
-                    response.send('Ack Chenillard on : ' + chenillard.getStateChe())
+                    response.send('Ack Chenillard on : ' + chenillard.getStateChe())    //Envoie d'un message d'ACK au client
                 }
                 break;
         }  
     })
-    .get('/led', (request, response) => {
-        if (request.query.signal === 'on') {
-            knx.getLed(request.query.id).setState(true)
-            console.log('Led' + request.query.id + ' ON')
-            response.send("Ack Led ON")
+    .get('/led', (request, response) => {   //Réception des commandes sur les Leds
+        if (request.query.signal === 'on') {    //Signal pour allumé la led
+            knx.getLed(request.query.id).setState(true)     //Récupération de l'id de la Led pour l'allumé 
+            console.log('Led' + request.query.id + ' ON')   
+            response.send("Ack Led ON")     //Envoie d'un message d'ACK au client
         }
-        else if (request.query.signal === 'off') {
-            knx.getLed(request.query.id).setState(false)
+        else if (request.query.signal === 'off') {  //Signal pour éteindre la led
+            knx.getLed(request.query.id).setState(false)   //Récupération de l'id de la Led pour l'éteindre  
             console.log('Led' + request.query.id + ' OFF')
-            response.send("Ack Led OFF")
+            response.send("Ack Led OFF")    //Envoie d'une message d'ACK au client
         }
        
     })
-
     console.log(knx)
