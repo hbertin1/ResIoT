@@ -5,6 +5,7 @@ import Body from './Body'
 import Display from './Display'
 import { useDispatch } from 'react-redux'
 import { onOff, addLed } from "./Store";
+import { useSelector } from 'react-redux'
 
 function Led({ id }) {
 
@@ -12,12 +13,18 @@ function Led({ id }) {
     const dispatch = useDispatch()
     dispatch(addLed(id, true))
 
+    // const isLedOn = useSelector((state) => state.leds[id - 1].state)
+
     return (<div>
         <ul>
             <li>{id}</li>
             <li>{<Display id={id} />}</li>
             <li><button onClick={() => {
                 dispatch(onOff(id))
+<<<<<<< HEAD
+                // client.send(JSON.stringify({"type":"LED", "id":id, "action":"onOff"}))
+=======
+>>>>>>> aa122577ac3c70492ffbcf86afa028d93669a84e
             }}>Start</button></li>
         </ul>
     </div>)

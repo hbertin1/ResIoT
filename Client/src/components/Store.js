@@ -3,7 +3,12 @@ import { createStore } from "redux";
 // state
 const initialState = {
     leds: [],
-    ledNumber: 0
+    ledNumber: 0,
+    chenillard: {
+      state: false,
+      speed: 0
+    },
+    serverWS: undefined
 };
 
 // actions creators
@@ -20,6 +25,15 @@ export const addLed = (id, connect) => ({
 });
 
 export const restartLed = { "type": "restart" };
+
+export const startStopChenillard = {
+  "type": "startStopChenillard"
+}
+
+export const createServer = (websocket) => ({
+  "type": "createServer",
+  "server": websocket
+})
 
 function reducer(state = initialState, action) {
   if (action.type === "restart") {
@@ -50,12 +64,20 @@ function reducer(state = initialState, action) {
     let state2change = led_to_modify.state
     led_to_modify.state = !state2change
     copy_leds.splice(index, 1, led_to_modify)
-    console.log(copy_leds)
     return { ...state, leds:copy_leds };
   }
 
-  console.log(state)
-  
+  if (action.type === "startStopChenillard") {
+    let currentChenillard = state.chenillard
+    currentChenillard.state = !currentChenillard.state
+    return { ...state, chenillard:currentChenillard };
+  }
+
+  if(action.type === "createServer") {
+    let serverWS = action.websocket
+    return { ...state, server: serverWS };
+  }
+
   return state;
 }
 
