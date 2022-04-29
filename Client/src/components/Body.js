@@ -25,6 +25,7 @@ function Body() {
           })    
     };
 
+    dispatch(createServer(client))
     
 
     return (
