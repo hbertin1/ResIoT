@@ -19,8 +19,8 @@ class Led{
      * Modifie l'etat de la LED
      * @param {etat de la LED} state 
      */
-     setState() {
-        this.state = !this.state;
+     setState(state) {
+        this.state = state;
     }
 
     /**

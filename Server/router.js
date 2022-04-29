@@ -49,11 +49,16 @@ router
     })
     .get('/led', (request, response) => {
         if (request.query.signal === 'on') {
-            console.log('Led' + request.query.number + ' ON')
+            knx.getLed(request.query.id).setState(true)
+            console.log('Led' + request.query.id + ' ON')
             response.send("Ack Led ON")
         }
         else if (request.query.signal === 'off') {
-            console.log('Led' + request.query.number + ' OFF')
+            knx.getLed(request.query.id).setState(false)
+            console.log('Led' + request.query.id + ' OFF')
             response.send("Ack Led OFF")
         }
+       
     })
+
+    console.log(knx)
