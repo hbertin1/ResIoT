@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux'
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const axios = require('axios')
 const urlServer = '127.0.0.1:8000'
@@ -9,7 +8,6 @@ const client = new W3CWebSocket('ws://127.0.0.1:3000');
 function Display({ id }) {
     const isLedConnected = useSelector((state) => state.leds[id - 1].connected)
     const isLedOn = useSelector((state) => state.leds[id - 1].state)
-
 
     function sendStateLed(currentState) {
         let res = false;

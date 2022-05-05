@@ -6,7 +6,8 @@ const initialState = {
     ledNumber: 0,
     chenillard: {
       state: false,
-      speed: 0
+      speed: 0, 
+      colorButton: "red"
     },
     serverWS: undefined
 };
@@ -70,6 +71,9 @@ function reducer(state = initialState, action) {
   if (action.type === "startStopChenillard") {
     let currentChenillard = state.chenillard
     currentChenillard.state = !currentChenillard.state
+    let currentColor = currentChenillard.colorButton
+    if(currentColor === "red") currentChenillard.colorButton = 'green'
+    else currentChenillard.colorButton = 'red'
     return { ...state, chenillard:currentChenillard };
   }
 
