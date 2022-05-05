@@ -1,7 +1,11 @@
 {
   "dependencies": {
+    "body": "^5.1.0",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "express": "^4.17.3",
+    "install": "^0.13.0",
+    "knx": "^2.5.2",
     "morgan": "^1.10.0",
     "ws": "^8.5.0"
   }

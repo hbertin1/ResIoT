@@ -41,3 +41,11 @@ app.use(bodyParser.urlencoded({
     }));
 app.use(router); // Requests processing will be defined in the file router
 app.listen(port, () => console.log('Server app listening on port ' + port));
+
+
+const server = app.listen(2000);
+server.on('upgrade', (request, socket, head) => {
+  wsServer.handleUpgrade(request, socket, head, socket => {
+    wsServer.emit('connection', socket, request);
+  });
+});

@@ -7,7 +7,6 @@ function App() {
     <div>
       <Banner />
       <Body/>
-      <Display id={1}/>
     </div>
   )
 }
