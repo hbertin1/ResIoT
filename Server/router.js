@@ -6,6 +6,7 @@ const { Led } = require('../Server/led.js');
 const { Knx } = require('../Server/knx.js');
 const { Chenillard } = require('./chenillard.js');
 const knx = new Knx(4); //création du knx virtuel 
+const wsServer = require('./serverWebsocket.js');
 
 module.exports = router;
 
@@ -25,6 +26,8 @@ router
             case 'on':
                 if (!chenillard.getStateChe()) {        //Chenillard eteint
                     chenillard.setStateChe(true);    //Chenillard eteint donc on allume
+
+                    //Envoyé la réponse en webSocket
                     response.send('Ack Chenillard on : ' + chenillard.getStateChe())    //Envoie d'un message d'ACK au client
                 }
                 //Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
@@ -49,7 +52,8 @@ router
         if (request.query.signal === 'on') {    //Signal pour allumé la led
             knx.getLed(request.query.id).setState(true)     //Récupération de l'id de la Led pour l'allumé 
             console.log('Led' + request.query.id + ' ON')   
-            response.send("Ack Led ON")     //Envoie d'un message d'ACK au client
+            response.send("Ack Led ON")    //Envoie d'un message d'ACK au client
+            wsServer.send("test")
         }
         else if (request.query.signal === 'off') {  //Signal pour éteindre la led
             knx.getLed(request.query.id).setState(false)   //Récupération de l'id de la Led pour l'éteindre  

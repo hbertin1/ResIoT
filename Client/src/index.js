@@ -7,7 +7,7 @@ import { store } from './components/Store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
+    <React.StrictMode>  {/*Attention double le requete client-server*/}
       <App />
     </React.StrictMode>
   </Provider>,

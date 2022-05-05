@@ -6,7 +6,7 @@ import { createServer } from './Store'
 
 const axios = require('axios')
 const urlServer = '//127.0.0.1:8000'
-const client = new W3CWebSocket('ws://127.0.0.1:8000');
+const client = new W3CWebSocket('ws://127.0.0.1:3050');
 
 function Body() {
     const dispatch = useDispatch()

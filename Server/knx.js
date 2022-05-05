@@ -53,7 +53,7 @@ class Knx{
     }
 
     toJSON(){
-        return JSON.stringify({"knx" : this.knx, "numberLed": this.numberLed, "chenillard":this.chenillard});
+        return JSON.stringify({"knx" : this.knx, "numberLed": this.numberLed, "chenillard": this.chenillard});
     }
 
 
