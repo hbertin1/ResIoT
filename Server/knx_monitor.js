@@ -1,5 +1,4 @@
 var knx = require('knx');
-
 const exitHook = require('async-exit-hook');
 
 
@@ -7,13 +6,13 @@ var connection = new knx.Connection( {
     // ip address and port of the KNX router or interface
     ipAddr: '192.168.0.201', ipPort: 3671,
     // in case you need to specify the multicast interface (say if you have more than one)
-    interface: 'eth0',
+    //interface: 'eth0',
     // the KNX physical address we'd like to use
     physAddr: '15.15.15',
     // set the log level for messsages printed on the console. This can be 'error', 'warn', 'info' (default), 'debug', or 'trace'.
     loglevel: 'info',
     // do not automatically connect, but use connection.Connect() to establish connection
-    manualConnect: true,  
+    //manualConnect: true,  
     // use tunneling with multicast (router) - this is NOT supported by all routers! See README-resilience.md
     forceTunneling: true,
     // wait at least 10 millisec between each datagram
@@ -47,6 +46,8 @@ var connection = new knx.Connection( {
     }
   });
 
+connection.Connect()
+
 var light1 = new knx.Devices.BinarySwitch({ga: '0/0/1', status_ga: '0/0/101'}, connection);
 console.log("The current light1 status is %j", light1.status.current_value);
 light1.control.on('change', function(oldvalue, newvalue) {
@@ -57,10 +58,11 @@ light1.status.on('change', function(oldvalue, newvalue) {
 });
 light1.switchOn(); // or switchOff();
 
-// exitHook(cb => {
-//   console.log('Disconnecting from KNX…');
-//   connection.Disconnect(() => {
-//     console.log('Disconnected from KNX');
-//     cb();
-//   });
-// });
+exitHook(cb => {
+  console.log('Disconnecting from KNX…');
+  light1.switchOff();
+  connection.Disconnect(() => {
+    console.log('Disconnected from KNX');
+    cb();
+  });
+});
