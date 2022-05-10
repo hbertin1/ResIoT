@@ -4,7 +4,7 @@ const exitHook = require('async-exit-hook');
 
 var connection = new knx.Connection({
   // ip address and port of the KNX router or interface
-  ipAddr: '192.168.0.201', ipPort: 3671,
+  ipAddr: '192.168.0.202', ipPort: 3671,
   // in case you need to specify the multicast interface (say if you have more than one)
   // interface: 'utun2',
   // the KNX physical address we'd like to use
@@ -35,23 +35,26 @@ var connection = new knx.Connection({
     },
     // get notified for all KNX events:
     event: function (evt, src, dest, value) {
-      console.log("Pierre louis ",JSON.parse(value))
-      console.log("Hugo ",JSON.parse(value).type)
-      console.log(
-        "event: %s, src: %j, dest: %j, value: %j",
-        evt, src, dest, value 
-      );
       switch (dest) {
         case '1/0/1':
-          valueparsed = JSON.parse(value);
-          if (value.data[0] === 0) {
-            console.log("test")
-            light1.switchOff()
-          }
-          else {
-            console.log("test2")
-            light1.switchOn()
-          }
+      //     // valueStringified = JSON.stringify(value);
+      //     // console.log("test The current light1 status is %j", light1.status);
+      //     // if(JSON.stringify(light1.status.current_value)) {
+      //     //   light1.switchOff()
+      //     // } 
+      //     // else {
+      //     //   light1.switchOn()
+      //     // }
+      //     // valueparsed = JSON.parse(valueStringified);
+      //     // if (valueparsed.data[0] === 0) {
+      //     //   console.log("test")
+      //     //   light1.switchOff()
+      //     // }
+          // else {
+          //   console.log("test2")
+          //   light1.switchOn()
+          // }
+          light1.switchOff()
           break;
       }
     },
