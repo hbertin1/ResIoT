@@ -1,6 +1,4 @@
-const express = require('express');
-const server = require('./server');
-const wsServer = require('./serverWebsocket.js');
+const os = require('node:os');
 
-server()
-wsServer()
+const candidateInterfaces = os.networkInterfaces();
+console.log(candidateInterfaces)
