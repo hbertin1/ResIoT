@@ -65,6 +65,9 @@ var connection = new knx.Connection({
 connection.Connect()
 
 var light1 = new knx.Devices.BinarySwitch({ ga: '0/0/1', status_ga: '0/0/101' }, connection);
+var light2 = new knx.Devices.BinarySwitch({ ga: '0/0/2', status_ga: '0/0/102' }, connection);
+
+
 console.log("The current light1 status is %j", light1.status.current_value);
 light1.control.on('change', function (oldvalue, newvalue) {
   console.log("**** light1 control changed from: %j to: %j", oldvalue, newvalue);
@@ -74,9 +77,28 @@ light1.status.on('change', function (oldvalue, newvalue) {
 });
 light1.switchOn(); // or switchOff();
 
+async function led1 () {
+  light1.switchOn();
+}
+
+async function led2 () {
+  light2.switchOn();
+}
+
+async function main () {
+  // this log will not happen until the intensive task is done, main thread is blocked
+  setInterval(() => { light1.switchOff()}, 1000)
+  await led1()
+  await led2()
+}
+
+main()
+
+
 exitHook(cb => {
   console.log('Disconnecting from KNX…');
   light1.switchOff();
+  light2.switchOff();
   connection.Disconnect(() => {
     console.log('Disconnected from KNX');
     cb();
