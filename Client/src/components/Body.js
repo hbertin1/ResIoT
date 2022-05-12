@@ -20,7 +20,8 @@ function Body() {
         client.send(JSON.stringify({"connexion":true}))
     };
     client.onmessage = (message) => {
-        parseDataRcvd(message.data)
+        // parseDataRcvd(message.data)
+        console.log("message received: " + JSON.stringify(message));
     };    
 
     return (

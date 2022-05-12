@@ -3,7 +3,7 @@ const exitHook = require('async-exit-hook');
 
 var connection = new knx.Connection({
   // ip address and port of the KNX router or interface
-  ipAddr: '192.168.0.202', ipPort: 3671,
+  ipAddr: '192.168.0.201', ipPort: 3671,
   // in case you need to specify the multicast interface (say if you have more than one)
   // interface: 'utun2',
   // the KNX physical address we'd like to use
@@ -109,7 +109,7 @@ var light4 = new knx.Devices.BinarySwitch({ ga: '0/0/4', status_ga: '0/0/104' },
 
 console.log("The current light1 status is %j", light1.status.current_value);
 light1.control.on('change', function (oldvalue, newvalue) {
-  console.log("**** light1 control changed from: %j to: %j", oldvalue, newvalue);
+  // console.log("**** light1 control changed from: %j to: %j", oldvalue, newvalue);
   ligthState = newvalue
 });
 light1.status.on('change', function (oldvalue, newvalue) {
@@ -203,3 +203,9 @@ exitHook(cb => {
     cb();
   });
 });
+
+
+module.exports = {
+  startStopChenillard: function () { startStopChenillard() },
+  
+}
