@@ -44,8 +44,9 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
-            switchLight();
+            startStopChenillard();
           }
+          break;
           //     // console.log("test The current light1 status is %j", light1.status);
           //     // if(JSON.stringify(light1.status.current_value)) {
           //     //   light1.switchOff()
@@ -68,7 +69,7 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
-            startStopChenillard();
+            direction = !direction;
           }
           break;
         case '1/0/3':
@@ -138,44 +139,60 @@ let tabLight = [];
 tabLight.push(light1, light2, light3, light4)
 var speed = 0.2;
 var timerId;
+var indexChenillard=0;
+var direction = true;
 
 async function chenillard() {
   intervalId = setInterval(function () {
     timerId1 = setTimeout(switchLedChenillard,  1000*speed, light1, light2);
     timerId2 = setTimeout(switchLedChenillard,  2000*speed, light2, light3);
-    timerId3 =  setTimeout(switchLedChenillard,  3000*speed, light3, light4);
+    timerId3 = setTimeout(switchLedChenillard,  3000*speed, light3, light4);
     timerId4 = setTimeout(switchLedChenillard,  4000*speed, light4, light1);
  
   }, 4000*speed)
 }
 
 function rChenillard(newIndex, tabLight){
-  console.log(speed)
   oldIndex = newIndex;
-  if(oldIndex == tabLight.length-1){
-    newIndex = 0;
+  console.log(oldIndex)
+  console.log(newIndex)
+  console.log(direction)
+  if(direction){
+    if(oldIndex == tabLight.length-1){
+      newIndex = 0;
+    }
+    else {
+      newIndex = oldIndex+1;
+    }
   }
-  else {
-    newIndex = oldIndex+1;
+  else{
+    console.log(oldIndex)
+    console.log(newIndex)
+    if(oldIndex == 0){
+      newIndex = tabLight.length-1;
+      console.log(newIndex)
+    }
+    else {
+      newIndex = oldIndex-1;
+    }
   }
   timerId = setTimeout(function(){
       switchLedChenillard(tabLight[oldIndex], tabLight[newIndex])
       rChenillard(newIndex, tabLight);
+      indexChenillard = newIndex;
   },1000*speed);
 }
 
 function startStopChenillard() {
   console.log(timerId)
   if(timerId === undefined) {
-    index
-    rChenillard(0, tabLight);
+    rChenillard(indexChenillard, tabLight);
   }
   else {
     clearTimeout(timerId);
     timerId = undefined;
   }
 }
-
 
 exitHook(cb => {
   console.log('Disconnecting from KNX…');
