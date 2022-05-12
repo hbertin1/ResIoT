@@ -1,7 +1,6 @@
 var knx = require('knx');
 const exitHook = require('async-exit-hook');
 
-
 var connection = new knx.Connection({
   // ip address and port of the KNX router or interface
   ipAddr: '192.168.0.201', ipPort: 3671,
@@ -80,6 +79,14 @@ var connection = new knx.Connection({
             speed = speed*2;
           }
           break;
+        case '1/0/4':
+          valueStringified = JSON.stringify(value);
+          valueparsed = JSON.parse(valueStringified);
+          console.log("value parsed ", valueparsed.data[0]);
+          if (valueparsed.data[0] === 0) {
+            speed = speed/2;
+          }
+          break;
       }
     },
     // get notified on connection errors
@@ -109,9 +116,6 @@ light1.status.on('change', function (oldvalue, newvalue) {
 });
 //light1.switchOn(); // or switchOff();
 
-
-var timerId;
-
 function switchLight() {
   if (ligthState) {
     light1.switchOff();
@@ -130,24 +134,41 @@ function switchLedChenillard(ledOn, ledOff) {
   ledOff.switchOn();
 }
 
+let tabLight = [];
+tabLight.push(light1, light2, light3, light4)
 var speed = 0.2;
+var timerId;
 
 async function chenillard() {
-  light1.switchOn();
-  timerId = setInterval(function () {
-    setTimeout(switchLedChenillard,  1000*speed, light1, light2);
-    setTimeout(switchLedChenillard,  2000*speed, light2, light3);
-    setTimeout(switchLedChenillard,  3000*speed, light3, light4);
-    setTimeout(switchLedChenillard,  4000*speed, light4, light1);
+  intervalId = setInterval(function () {
+    timerId1 = setTimeout(switchLedChenillard,  1000*speed, light1, light2);
+    timerId2 = setTimeout(switchLedChenillard,  2000*speed, light2, light3);
+    timerId3 =  setTimeout(switchLedChenillard,  3000*speed, light3, light4);
+    timerId4 = setTimeout(switchLedChenillard,  4000*speed, light4, light1);
  
   }, 4000*speed)
+}
+
+function rChenillard(newIndex, tabLight){
+  console.log(speed)
+  oldIndex = newIndex;
+  if(oldIndex == tabLight.length-1){
+    newIndex = 0;
+  }
+  else {
+    newIndex = oldIndex+1;
+  }
+  timerId = setTimeout(function(){
+      switchLedChenillard(tabLight[oldIndex], tabLight[newIndex])
+      rChenillard(newIndex, tabLight);
+  },1000*speed);
 }
 
 function startStopChenillard() {
   console.log(timerId)
   if(timerId === undefined) {
-    chenillard();
-    console.log(timerId)
+    index
+    rChenillard(0, tabLight);
   }
   else {
     clearTimeout(timerId);
