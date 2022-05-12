@@ -113,78 +113,7 @@ function switchLedChenillard(ledOn, ledOff) {
   ledOff.switchOn();
 }
 
-function led1SwitchOn() {
-  light1.switchOn();
-}
-function led1SwitchOff() {
-  light1.switchOff();
-}
-
-function led2SwitchOn() {
-  light2.switchOn();
-}
-function led2SwitchOff() {
-  light2.switchOff();
-}
-
-function led3SwitchOn() {
-  light3.switchOn();
-}
-function led3SwitchOff() {
-  light3.switchOff();
-}
-
-function led4SwitchOn() {
-  light4.switchOn();
-}
-function led4SwitchOff() {
-  light4.switchOff();
-}
-
-async function asyncled1SwitchOn() {
-  console.log("test led1")
-  led1SwitchOn()
-  setTimeout(led1SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
-}
-
-async function asyncled2SwitchOn() {
-  light2.switchOn();
-  setTimeout(led2SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
-}
-
-async function asyncled3SwitchOn() {
-  light3.switchOn();
-  setTimeout(led3SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
-}
-
-async function asyncled4SwitchOn() {
-  light4.switchOn();
-  setTimeout(led4SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
-}
-
 async function chenillard() {
-  // this log will not happen until the intensive task is done, main thread is blocked
-  /*
-    setInterval(function(){
-      led1SwitchOn()
-      setTimeout(led1SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-  }, 1000)
-  
-  setInterval(function(){
-    led2SwitchOn()
-    setTimeout(led2SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-  }, 1000)
-  
-  setInterval(function(){
-    led3SwitchOn()
-    setTimeout(led3SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-  }, 1000)
-  
-  setInterval(function(){
-    led4SwitchOn()
-    setTimeout(led4SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-  }, 1000)
-  */
   light1.switchOn();
   setInterval(function () {
     setTimeout(switchLedChenillard,  1000, light1, light2);
@@ -192,16 +121,9 @@ async function chenillard() {
     setTimeout(switchLedChenillard,  3000, light3, light4);
     setTimeout(switchLedChenillard,  4000, light4, light1);
   }, 4000)
-
-  console.log("chenillard")
-  // await asyncled1SwitchOn();
-  // await asyncled2SwitchOn();
-  // await asyncled3SwitchOn();
-  // await asyncled4SwitchOn();
 }
 
 chenillard()
-
 
 
 exitHook(cb => {
