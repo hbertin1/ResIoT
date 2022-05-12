@@ -64,6 +64,22 @@ var connection = new knx.Connection({
           //   light1.switchOn()
           // }
           break;
+        case '1/0/2':
+          valueStringified = JSON.stringify(value);
+          valueparsed = JSON.parse(valueStringified);
+          console.log("value parsed ", valueparsed.data[0]);
+          if (valueparsed.data[0] === 0) {
+            startStopChenillard();
+          }
+          break;
+        case '1/0/3':
+          valueStringified = JSON.stringify(value);
+          valueparsed = JSON.parse(valueStringified);
+          console.log("value parsed ", valueparsed.data[0]);
+          if (valueparsed.data[0] === 0) {
+            speed = speed*2;
+          }
+          break;
       }
     },
     // get notified on connection errors
@@ -94,6 +110,7 @@ light1.status.on('change', function (oldvalue, newvalue) {
 //light1.switchOn(); // or switchOff();
 
 
+var timerId;
 
 function switchLight() {
   if (ligthState) {
@@ -113,17 +130,30 @@ function switchLedChenillard(ledOn, ledOff) {
   ledOff.switchOn();
 }
 
+var speed = 0.2;
+
 async function chenillard() {
   light1.switchOn();
-  setInterval(function () {
-    setTimeout(switchLedChenillard,  1000, light1, light2);
-    setTimeout(switchLedChenillard,  2000, light2, light3);
-    setTimeout(switchLedChenillard,  3000, light3, light4);
-    setTimeout(switchLedChenillard,  4000, light4, light1);
-  }, 4000)
+  timerId = setInterval(function () {
+    setTimeout(switchLedChenillard,  1000*speed, light1, light2);
+    setTimeout(switchLedChenillard,  2000*speed, light2, light3);
+    setTimeout(switchLedChenillard,  3000*speed, light3, light4);
+    setTimeout(switchLedChenillard,  4000*speed, light4, light1);
+ 
+  }, 4000*speed)
 }
 
-chenillard()
+function startStopChenillard() {
+  console.log(timerId)
+  if(timerId === undefined) {
+    chenillard();
+    console.log(timerId)
+  }
+  else {
+    clearTimeout(timerId);
+    timerId = undefined;
+  }
+}
 
 
 exitHook(cb => {
