@@ -29,15 +29,24 @@ var connection = new knx.Connection({
       // WRITE an arbitrary boolean request to a DPT1 x address
       connection.write("0/0/1", 1);
       // you can also issue a READ request and pass a callback to capture the response
-      connection.read("0/1/1", (src, responsevalue) => {
+      connection.read("0/0/1", (src, responsevalue) => {
         console.log("src : %s , responsevalue : %s", src, responsevalue);
       });
     },
     // get notified for all KNX events:
     event: function (evt, src, dest, value) {
+      console.log(
+        "event: %s, src: %j, dest: %j, value: %j",
+        evt, src, dest, value
+      );
       switch (dest) {
         case '1/0/1':
-      //     // valueStringified = JSON.stringify(value);
+          valueStringified = JSON.stringify(value);
+          valueparsed = JSON.parse(valueStringified);
+          console.log("value parsed ", valueparsed.data[0]);
+          if (valueparsed.data[0] === 0) {
+            switchLight();
+          }
       //     // console.log("test The current light1 status is %j", light1.status);
       //     // if(JSON.stringify(light1.status.current_value)) {
       //     //   light1.switchOff()
@@ -45,7 +54,7 @@ var connection = new knx.Connection({
       //     // else {
       //     //   light1.switchOn()
       //     // }
-      //     // valueparsed = JSON.parse(valueStringified);
+
       //     // if (valueparsed.data[0] === 0) {
       //     //   console.log("test")
       //     //   light1.switchOff()
@@ -54,7 +63,6 @@ var connection = new knx.Connection({
           //   console.log("test2")
           //   light1.switchOn()
           // }
-          light1.switchOff()
           break;
       }
     },
@@ -67,6 +75,8 @@ var connection = new knx.Connection({
 
 connection.Connect()
 
+var ligthState;
+
 var light1 = new knx.Devices.BinarySwitch({ ga: '0/0/1', status_ga: '0/0/101' }, connection);
 var light2 = new knx.Devices.BinarySwitch({ ga: '0/0/2', status_ga: '0/0/102' }, connection);
 var light3 = new knx.Devices.BinarySwitch({ ga: '0/0/3', status_ga: '0/0/103' }, connection);
@@ -75,7 +85,8 @@ var light4 = new knx.Devices.BinarySwitch({ ga: '0/0/4', status_ga: '0/0/104' },
 
 console.log("The current light1 status is %j", light1.status.current_value);
 light1.control.on('change', function (oldvalue, newvalue) {
-  console.log("**** light1 control changed from: %j to: %j", oldvalue, newvalue);
+  console.log("**** light1 control changed from: %j to: %j", oldvalue, newvalue); 
+  ligthState = newvalue
 });
 light1.status.on('change', function (oldvalue, newvalue) {
   console.log("**** light1 status changed from: %j to: %j", oldvalue, newvalue);
@@ -83,6 +94,19 @@ light1.status.on('change', function (oldvalue, newvalue) {
 //light1.switchOn(); // or switchOff();
 
 
+
+function switchLight() {
+  if(ligthState) {
+    light1.switchOff();
+  }
+  else{
+    light1.switchOn();
+  }
+  // connection.read("0/0/1", (src, responsevalue) => {
+  //   console.log("src : %s , responsevalue : %s", src, responsevalue);
+  // });
+  // console.log("The current light1 status is %j", light1.status.current_value);
+}
 function led1SwitchOn () {
   light1.switchOn();
 }
