@@ -131,27 +131,28 @@ function led3SwitchOff () {
 function led4SwitchOn () {
   light4.switchOn();
 }
+
 function led4SwitchOff () {
   light4.switchOff();
 }
 
-async function asyncled1SwitchOn () {
+function asyncled1SwitchOn () {
   console.log("test led1")
-  light1.switchOn();
+  led1SwitchOn()
   setTimeout(led1SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
 
-async function asyncled2SwitchOn () {
+function asyncled2SwitchOn () {
   light2.switchOn();
   setTimeout(led2SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
 
-async function asyncled3SwitchOn () {
+function asyncled3SwitchOn () {
   light3.switchOn();
   setTimeout(led3SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
 
-async function asyncled4SwitchOn () {
+function asyncled4SwitchOn () {
   light4.switchOn();
   setTimeout(led4SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
@@ -179,10 +180,13 @@ setInterval(function(){
   setTimeout(led4SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
 }, 1000)
 */
-/*
+console.log("chenillard")
+
 setInterval(function(){
   led1SwitchOn()
-    setTimeout(led1SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
+    setTimeout(led1SwitchOff( x =>{
+        console.log("test")
+    }), 1000, 'Message d\'alerte après 2 secondes');
   setInterval(function(){
     led2SwitchOn()
       setTimeout(led2SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
@@ -196,15 +200,18 @@ setInterval(function(){
     }, 1000)
   }, 1000)
 }, 1000)
-*/
-console.log("chenillard")
+
+
+/*
 await asyncled1SwitchOn();
 await asyncled2SwitchOn();
 await asyncled3SwitchOn();
-await asyncled4SwitchOn();
+await asyncled4SwitchOn()
+*/
+
 }
 
-//chenillard()
+chenillard()
 
 
 
