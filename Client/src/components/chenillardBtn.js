@@ -15,6 +15,8 @@ function ChenillardBtn() {
         let direction = false
         if (currentState) signal = `off`
 
+        console.log("test")
+
         axios.get(`http://` + urlServer + `/chenillard?signal=` + signal + `&speed=` + speed + `&direction=` + direction)
             .then(response => {
                 console.log(response)
