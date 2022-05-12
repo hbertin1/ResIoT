@@ -149,7 +149,6 @@ async function chenillard() {
   }, 4000*speed)
 }
 
-
 function rChenillard(newIndex, tabLight){
   console.log(speed)
   oldIndex = newIndex;
@@ -168,6 +167,7 @@ function rChenillard(newIndex, tabLight){
 function startStopChenillard() {
   console.log(timerId)
   if(timerId === undefined) {
+    index
     rChenillard(0, tabLight);
   }
   else {
