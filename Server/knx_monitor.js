@@ -47,18 +47,18 @@ var connection = new knx.Connection({
           if (valueparsed.data[0] === 0) {
             switchLight();
           }
-      //     // console.log("test The current light1 status is %j", light1.status);
-      //     // if(JSON.stringify(light1.status.current_value)) {
-      //     //   light1.switchOff()
-      //     // } 
-      //     // else {
-      //     //   light1.switchOn()
-      //     // }
+          //     // console.log("test The current light1 status is %j", light1.status);
+          //     // if(JSON.stringify(light1.status.current_value)) {
+          //     //   light1.switchOff()
+          //     // } 
+          //     // else {
+          //     //   light1.switchOn()
+          //     // }
 
-      //     // if (valueparsed.data[0] === 0) {
-      //     //   console.log("test")
-      //     //   light1.switchOff()
-      //     // }
+          //     // if (valueparsed.data[0] === 0) {
+          //     //   console.log("test")
+          //     //   light1.switchOff()
+          //     // }
           // else {
           //   console.log("test2")
           //   light1.switchOn()
@@ -85,7 +85,7 @@ var light4 = new knx.Devices.BinarySwitch({ ga: '0/0/4', status_ga: '0/0/104' },
 
 console.log("The current light1 status is %j", light1.status.current_value);
 light1.control.on('change', function (oldvalue, newvalue) {
-  console.log("**** light1 control changed from: %j to: %j", oldvalue, newvalue); 
+  console.log("**** light1 control changed from: %j to: %j", oldvalue, newvalue);
   ligthState = newvalue
 });
 light1.status.on('change', function (oldvalue, newvalue) {
@@ -96,10 +96,10 @@ light1.status.on('change', function (oldvalue, newvalue) {
 
 
 function switchLight() {
-  if(ligthState) {
+  if (ligthState) {
     light1.switchOff();
   }
-  else{
+  else {
     light1.switchOn();
   }
   // connection.read("0/0/1", (src, responsevalue) => {
@@ -107,108 +107,97 @@ function switchLight() {
   // });
   // console.log("The current light1 status is %j", light1.status.current_value);
 }
-function led1SwitchOn () {
+
+function switchLedChenillard(ledOn, ledOff) {
+  ledOn.switchOff();
+  ledOff.switchOn();
+}
+
+function led1SwitchOn() {
   light1.switchOn();
 }
-function led1SwitchOff () {
+function led1SwitchOff() {
   light1.switchOff();
 }
 
-function led2SwitchOn () {
+function led2SwitchOn() {
   light2.switchOn();
 }
-function led2SwitchOff () {
+function led2SwitchOff() {
   light2.switchOff();
 }
 
-function led3SwitchOn () {
+function led3SwitchOn() {
   light3.switchOn();
 }
-function led3SwitchOff () {
+function led3SwitchOff() {
   light3.switchOff();
 }
 
-function led4SwitchOn () {
+function led4SwitchOn() {
   light4.switchOn();
 }
-
-function led4SwitchOff () {
+function led4SwitchOff() {
   light4.switchOff();
 }
 
-function asyncled1SwitchOn () {
+async function asyncled1SwitchOn() {
   console.log("test led1")
   led1SwitchOn()
   setTimeout(led1SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
 
-function asyncled2SwitchOn () {
+async function asyncled2SwitchOn() {
   light2.switchOn();
   setTimeout(led2SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
 
-function asyncled3SwitchOn () {
+async function asyncled3SwitchOn() {
   light3.switchOn();
   setTimeout(led3SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
 
-function asyncled4SwitchOn () {
+async function asyncled4SwitchOn() {
   light4.switchOn();
   setTimeout(led4SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
 }
 
-async function chenillard () {
+async function chenillard() {
   // this log will not happen until the intensive task is done, main thread is blocked
-/*
-  setInterval(function(){
-    led1SwitchOn()
-    setTimeout(led1SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-}, 1000)
-
-setInterval(function(){
-  led2SwitchOn()
-  setTimeout(led2SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-}, 1000)
-
-setInterval(function(){
-  led3SwitchOn()
-  setTimeout(led3SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-}, 1000)
-
-setInterval(function(){
-  led4SwitchOn()
-  setTimeout(led4SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
-}, 1000)
-*/
-console.log("chenillard")
-
-setInterval(function(){
-  led1SwitchOn()
-    setTimeout(led1SwitchOff( x =>{
-        console.log("test")
-    }), 1000, 'Message d\'alerte après 2 secondes');
+  /*
+    setInterval(function(){
+      led1SwitchOn()
+      setTimeout(led1SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
+  }, 1000)
+  
   setInterval(function(){
     led2SwitchOn()
-      setTimeout(led2SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
-    setInterval(function(){
-      led3SwitchOn()
-      setTimeout(led3SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
-      setInterval(function(){
-        led4SwitchOn()
-        setTimeout(led4SwitchOff, 1000, 'Message d\'alerte après 2 secondes');
-      }, 1000)
-    }, 1000)
+    setTimeout(led2SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
   }, 1000)
-}, 1000)
+  
+  setInterval(function(){
+    led3SwitchOn()
+    setTimeout(led3SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
+  }, 1000)
+  
+  setInterval(function(){
+    led4SwitchOn()
+    setTimeout(led4SwitchOff, 2000, 'Message d\'alerte après 2 secondes');
+  }, 1000)
+  */
+  light1.switchOn();
+  setInterval(function () {
+    setTimeout(switchLedChenillard,  1000, light1, light2);
+    setTimeout(switchLedChenillard,  2000, light2, light3);
+    setTimeout(switchLedChenillard,  3000, light3, light4);
+    setTimeout(switchLedChenillard,  4000, light4, light1);
+  }, 4000)
 
-
-/*
-await asyncled1SwitchOn();
-await asyncled2SwitchOn();
-await asyncled3SwitchOn();
-await asyncled4SwitchOn()
-*/
-
+  console.log("chenillard")
+  // await asyncled1SwitchOn();
+  // await asyncled2SwitchOn();
+  // await asyncled3SwitchOn();
+  // await asyncled4SwitchOn();
 }
 
 chenillard()
