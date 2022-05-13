@@ -159,8 +159,8 @@ function switchLed(id, state2change) {
 function switchLedChenillard(oldIndex, newIndex) {
   tabLight[oldIndex].switchOff();
   tabLight[newIndex].switchOn();
-  sendMessage(json.ledKnx("led",newIndex,"switch","on"))
-  sendMessage(json.ledKnx("led",oldIndex,"switch","off"))
+  sendMessage(json.ledKnx("led",newIndex+1,"switch","on"))
+  sendMessage(json.ledKnx("led",oldIndex+1,"switch","off"))
   
 }
 

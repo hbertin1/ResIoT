@@ -48,7 +48,7 @@ export function parseDataRcvd(data) {
                             var json = ({ 
                                 "type": "onOff",
                                 "id": dataParsed.id,
-                                "state": true
+                                "state": false
                               });
                             store.dispatch(json)
                             break;
