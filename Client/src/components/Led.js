@@ -21,7 +21,6 @@ function Led({ id }) {
             <li>{<Display id={id} />}</li>
             <li><button onClick={() => {
                 dispatch(onOff(id)) // move to the server reception file
-                dispatch(startStopChenillard)
                 // add the led state selector in order to update the button text
                 // client.send(JSON.stringify({"type":"LED", "id":id, "action":"onOff"}))
             }}>Start</button></li>
