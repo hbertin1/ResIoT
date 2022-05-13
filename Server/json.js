@@ -21,6 +21,11 @@ class Json {
         return Chenillard.toJson()
     }
 
+    chenillardKnx(device, action, state){
+        console.log('test')
+        return JSON.stringify({ "device" : device, "action": action, "state": state});
+    }
+
 
 }
 

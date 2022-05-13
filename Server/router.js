@@ -23,7 +23,7 @@ router
         switch (request.query.signal) {
             case 'on':
                 console.log('test tu rentre la ou quoi?')
-                knx.startStopChenillard();
+                //knx.startStopChenillard();
                 // Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
                 var speedChe = request.query.speed;                 //Vitesse du chenillard           
                 var directionChe = request.query.direction;         //direction du chenillard (true = right, false = left)
