@@ -1,4 +1,4 @@
-// const knx =  require('./knx_monitor.js');
+const knx =  require('./knx_monitor.js');
 const express = require("express");
 //const { ReadableStreamBYOBRequest } = require("stream/web");
 const router = express.Router();
@@ -22,8 +22,8 @@ router
     .get('/chenillard', (request, response) => {        //Réception des commandes sur le chenillard
         switch (request.query.signal) {
             case 'on':
-                // knx.startStopChenillard();
-                //Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
+                knx.startStopChenillard();
+                // Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
                 var speedChe = request.query.speed;                 //Vitesse du chenillard           
                 var directionChe = request.query.direction;         //direction du chenillard (true = right, false = left)
                 break;
@@ -32,10 +32,11 @@ router
                 break;
         }  
     })
-    .get('/led', (request, response) => {                   //Réception des commandes sur les Leds
+    .get('/led', (request, response) => {                       //Réception des commandes sur les Leds
+        knx.switchLed(request.query.id, request.query.signal)                  
         switch (request.query.signal) {   
             case 'on':             //Signal pour allumé la led
-                console.log('Led' + request.query.id + ' ON')   
+                console.log('Led' + request.query.id + ' ON')  
                 response.send("Ack Led ON")    //Envoi d'un message d'ACK au client
                 // wsServer.send("test")
                 break;

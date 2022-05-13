@@ -3,7 +3,7 @@ const exitHook = require('async-exit-hook');
 
 var connection = new knx.Connection({
   // ip address and port of the KNX router or interface
-  ipAddr: '192.168.0.201', ipPort: 3671,
+  ipAddr: '192.168.0.202', ipPort: 3671,
   // in case you need to specify the multicast interface (say if you have more than one)
   // interface: 'utun2',
   // the KNX physical address we'd like to use
@@ -129,6 +129,12 @@ function switchLight() {
   // console.log("The current light1 status is %j", light1.status.current_value);
 }
 
+function switchLed(id, state2change) {
+  led = tabLight[id-1];
+  if(state2change === 'on') led.switchOn();
+  else led.switchOff();
+}
+
 function switchLedChenillard(ledOn, ledOff) {
   ledOn.switchOff();
   ledOff.switchOn();
@@ -139,11 +145,12 @@ tabLight.push(light1, light2, light3, light4)
 var speed = 0.2;
 var timerId;
 
+// A VIRER
 async function chenillard() {
   intervalId = setInterval(function () {
     timerId1 = setTimeout(switchLedChenillard,  1000*speed, light1, light2);
     timerId2 = setTimeout(switchLedChenillard,  2000*speed, light2, light3);
-    timerId3 =  setTimeout(switchLedChenillard,  3000*speed, light3, light4);
+    timerId3 = setTimeout(switchLedChenillard,  3000*speed, light3, light4);
     timerId4 = setTimeout(switchLedChenillard,  4000*speed, light4, light1);
  
   }, 4000*speed)
@@ -167,7 +174,7 @@ function rChenillard(newIndex, tabLight){
 function startStopChenillard() {
   console.log(timerId)
   if(timerId === undefined) {
-    index
+    // index
     rChenillard(0, tabLight);
   }
   else {
@@ -190,5 +197,5 @@ exitHook(cb => {
 
 module.exports = {
   startStopChenillard: function () { startStopChenillard() },
-  
+  switchLed: function (id, state2change) { switchLed(id, state2change)}
 }
