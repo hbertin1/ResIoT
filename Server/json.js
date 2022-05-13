@@ -22,8 +22,11 @@ class Json {
     }
 
     chenillardKnx(device, action, state){
-        console.log('test')
         return JSON.stringify({ "device" : device, "action": action, "state": state});
+    }
+
+    ledKnx(device, id, action, state){
+        return JSON.stringify({ "device" : device, "id": id, "action": action, "state": state});
     }
 
 
