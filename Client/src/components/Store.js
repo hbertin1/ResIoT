@@ -14,9 +14,10 @@ const initialState = {
 
 // actions creators
 
-export const onOff = (deviceId) => ({ 
+export const onOffLed = (deviceId, state) => ({ 
   "type": "onOff",
-  "id": deviceId
+  "id": deviceId,
+  "state": state
 });
 
 export const addLed = (id, connect) => ({
@@ -64,7 +65,7 @@ function reducer(state = initialState, action) {
     let copy_leds = state.leds
     let led_to_modify = copy_leds[index]
     let state2change = led_to_modify.state
-    led_to_modify.state = !state2change
+    led_to_modify.state = action.state
     copy_leds.splice(index, 1, led_to_modify)
     return { ...state, leds:copy_leds };
   }
