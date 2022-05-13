@@ -146,11 +146,19 @@ function switchLight() {
 
 function switchLed(id, state2change) {
   led = tabLight[id-1];
-  if(state2change === 'on') led.switchOn();
-  else led.switchOff();
+  if(state2change === 'on') {
+    sendMessage(json.ledKnx("led",id,"switch","on"))
+    led.switchOn();
+  }
+  else {
+    sendMessage(json.ledKnx("led",id,"switch","off"))
+    led.switchOff();
+  }
 }
 
 function switchLedChenillard(ledOn, ledOff) {
+  sendMessage(json.ledKnx("led",ledOn,"switch","on"))
+  sendMessage(json.ledKnx("led",ledOff,"switch","off"))
   ledOn.switchOff();
   ledOff.switchOn();
 }
@@ -182,20 +190,19 @@ function rChenillard(newIndex, tabLight){
 
 function startStopChenillard() {
   if(timerId === undefined) {
-    sendMessage("chenillard", "switch", 'on')
+    sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
     rChenillard(indexChenillard, tabLight);
   }
   else {
     clearTimeout(timerId);
     timerId = undefined;
-    //ws.socket.send('stopChenillard')
+    sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
   }
-  
 }
 
-function sendMessage(device, action, state){
+function sendMessage(json){
   ws.clients.forEach(client => {
-    client.send(json.chenillardKnx(device, action, state))
+    client.send(json)
   })
 }
 
