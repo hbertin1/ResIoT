@@ -1,5 +1,4 @@
 import { store } from './Store'
-import { startStopChenillard } from './Store'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const client = new W3CWebSocket('ws://127.0.0.1:3050');
@@ -24,10 +23,10 @@ export function parseDataRcvd(data) {
                 case 'switch':
                     switch (dataParsed.state) {
                         case 'on':
-                            store.dispatch(startStopChenillard(true))
+                            store.dispatch(store.startStopChenillard(true))
                             break;
                         case 'off':
-                            store.dispatch(startStopChenillard(false))
+                            store.dispatch(store.startStopChenillard(false))
                             break;
                     } 
                     break;
@@ -38,10 +37,20 @@ export function parseDataRcvd(data) {
                 case 'switch':
                     switch (dataParsed.state){
                         case 'on':
-                            store.dispatch(onOffLed(dataParsed.id, true))
+                            var json = ({ 
+                                "type": "onOff",
+                                "id": dataParsed.id,
+                                "state": true
+                              });
+                            store.dispatch(json)
                             break;
                         case 'off':
-                            store.dispatch(onOffLed(dataParsed.id, false))
+                            var json = ({ 
+                                "type": "onOff",
+                                "id": dataParsed.id,
+                                "state": true
+                              });
+                            store.dispatch(json)
                             break;
                     }
                 break;
