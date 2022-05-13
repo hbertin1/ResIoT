@@ -16,8 +16,7 @@ client.onmessage = (message) => {
 // {"device" : "chenillard", "action": "switch", "state":"on"}
 
 export function parseDataRcvd(data) {
-    let dataStringified = JSON.stringify(data);
-    let dataParsed = JSON.parse(dataStringified);              // not sure
+    let dataParsed = JSON.parse(data);              // not sure
     console.log(dataParsed);
     switch (dataParsed.device) {
         case 'chenillard':
@@ -34,6 +33,21 @@ export function parseDataRcvd(data) {
                     break;
             }
             break;
+        case 'led':
+            switch (dataParsed.action) {
+                case 'switch':
+                    switch (dataParsed.state){
+                        case 'on':
+                            store.dispatch(onOffLed(dataParsed.id, true))
+                            break;
+                        case 'off':
+                            store.dispatch(onOffLed(dataParsed.id, false))
+                            break;
+                    }
+                break;
+
+            }
+        break;
     }
 
 } 
