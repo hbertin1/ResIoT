@@ -1,5 +1,8 @@
 var knx = require('knx');
 const exitHook = require('async-exit-hook');
+const Json = require('../Server/json.js')
+const json = new Json();
+
 
 var connection = new knx.Connection({
   // ip address and port of the KNX router or interface
@@ -44,6 +47,8 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
+            //envoie état btn pour websocket
+
             startStopChenillard();
           }
           break;
@@ -99,13 +104,22 @@ var connection = new knx.Connection({
 
 connection.Connect()
 
-var ligthState;
 
 var light1 = new knx.Devices.BinarySwitch({ ga: '0/0/1', status_ga: '0/0/101' }, connection);
 var light2 = new knx.Devices.BinarySwitch({ ga: '0/0/2', status_ga: '0/0/102' }, connection);
 var light3 = new knx.Devices.BinarySwitch({ ga: '0/0/3', status_ga: '0/0/103' }, connection);
 var light4 = new knx.Devices.BinarySwitch({ ga: '0/0/4', status_ga: '0/0/104' }, connection);
 
+
+let tabLight = [];
+tabLight.push(light1, light2, light3, light4)
+var speed = 0.2;
+var timerId;
+var indexChenillard=0;
+var direction = true;
+var etatChenillard = false;
+var ligthState;
+var ws;
 
 console.log("The current light1 status is %j", light1.status.current_value);
 light1.control.on('change', function (oldvalue, newvalue) {
@@ -141,24 +155,6 @@ function switchLedChenillard(ledOn, ledOff) {
   ledOff.switchOn();
 }
 
-let tabLight = [];
-tabLight.push(light1, light2, light3, light4)
-var speed = 0.2;
-var timerId;
-var indexChenillard=0;
-var direction = true;
-
-// A VIRER
-async function chenillard() {
-  intervalId = setInterval(function () {
-    timerId1 = setTimeout(switchLedChenillard,  1000*speed, light1, light2);
-    timerId2 = setTimeout(switchLedChenillard,  2000*speed, light2, light3);
-    timerId3 = setTimeout(switchLedChenillard,  3000*speed, light3, light4);
-    timerId4 = setTimeout(switchLedChenillard,  4000*speed, light4, light1);
- 
-  }, 4000*speed)
-}
-
 function rChenillard(newIndex, tabLight){
   oldIndex = newIndex;
   if(direction){
@@ -186,12 +182,21 @@ function rChenillard(newIndex, tabLight){
 
 function startStopChenillard() {
   if(timerId === undefined) {
+    sendMessage("chenillard", "switch", 'on')
     rChenillard(indexChenillard, tabLight);
   }
   else {
     clearTimeout(timerId);
     timerId = undefined;
+    //ws.socket.send('stopChenillard')
   }
+  
+}
+
+function sendMessage(device, action, state){
+  ws.clients.forEach(client => {
+    client.send(json.chenillardKnx(device, action, state))
+  })
 }
 
 exitHook(cb => {
@@ -204,8 +209,13 @@ exitHook(cb => {
   });
 });
 
+function initWebSocket(webSocket){
+  ws = webSocket;
+}
+
 
 module.exports = {
   startStopChenillard: function () { startStopChenillard() },
-  switchLed: function (id, state2change) { switchLed(id, state2change)}
+  switchLed: function (id, state2change) { switchLed(id, state2change)},
+  initWebSocket: function (webSocket) { initWebSocket(webSocket)}
 }

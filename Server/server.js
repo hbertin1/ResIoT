@@ -4,33 +4,22 @@ const ws = require('ws');
 const { Led } = require('../Server/led.js');
 const { Knx } = require('../Server/knx.js');
 const { Chenillard } = require('./chenillard.js');
+const knx =  require('./knx_monitor.js');
 
 
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const app = express();
-
 const port = process.env.PORT || 8000;
 const wsServer = new ws.Server({ noServer: true });
+knx.initWebSocket(wsServer);
+
 wsServer.on('connection', socket => {
   socket.on('message', function (data) {
     console.log("Connexion websocket")
     //msg = JSON.parse(data.toString("utf8"))
-    socket.send("TEST DE CONNEXION")
-
-    /*
-    //Lors de la connection envoie des données de la knx
-    setTimeout(() => { //fonction permettant de faire un temps d'arret 
-      const end = process.hrtime.bigint()// prend le temps à la fin du timeout 
-      const res = Number(end - start) * 10e-6//calcul du temps écoulé + converstion en millisecondes
-      console.log(`Temps écoulé ${res} millisecondes`)//affichage 
-      Knx.changeState(3) //change l'état de la led 4
-      socket.send(Knx.toJSON()) //envoie du JSON du KNX
-    }, 5000); // temps d'attentes en nanosecondes  
-
-    const start = process.hrtime.bigint(); // récupère le temps au début du programme 
-    */
+    //récupération du KNX et envoie un message en websocket json lorqu'il y a le chenillard 
   })
 });
 
@@ -54,5 +43,7 @@ server.on('upgrade', (request, socket, head) => {
 module.exports = {
   wsServer
 };
+
+
 
 
