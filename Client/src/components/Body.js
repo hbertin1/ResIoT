@@ -1,28 +1,17 @@
 import Led from './Led'
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { useDispatch } from 'react-redux'
 import { createServer } from './Store'
 import ChenillardBtn from './ChenillardBtn'
 import { useSelector } from 'react-redux'
-import { parseDataRcvd } from './parserServer';
+import { parseDataRcvd } from './ParserServer';
 
 
 const axios = require('axios')
 const urlServer = '//127.0.0.1:8000'
-const client = new W3CWebSocket('ws://127.0.0.1:3050');
 
 function Body() {
 
     const ledNumber = useSelector((state) => state.ledNumber)
-
-    client.onopen = () => {
-        console.log('WebSocket Client Connected');
-        client.send(JSON.stringify({"connexion":true}))
-    };
-    client.onmessage = (message) => {
-        // parseDataRcvd(message.data)
-        console.log("message received: " + JSON.stringify(message));
-    };    
 
     return (
         <div class="tableChenillard">

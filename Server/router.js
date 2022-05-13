@@ -27,9 +27,11 @@ router
                 // Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
                 var speedChe = request.query.speed;                 //Vitesse du chenillard           
                 var directionChe = request.query.direction;         //direction du chenillard (true = right, false = left)
+                response.send("Ack Chenillard ON")
                 break;
             case 'off':
                 // knx_t.startStopChenillard();
+                response.send("Ack Chenillard OFF")
                 break;
         }  
     })

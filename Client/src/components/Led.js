@@ -7,11 +7,30 @@ import { useDispatch } from 'react-redux'
 import { onOff, addLed, startStopChenillard } from "./Store";
 import { useSelector } from 'react-redux'
 
+const axios = require('axios')
+const urlServer = '127.0.0.1:8000'
+
 function Led({ id }) {
 
-    
     const dispatch = useDispatch()
     dispatch(addLed(id, true))
+
+    function sendStateLed(currentState) {
+        let res = false;
+        let signal = `on`
+        if (!currentState) signal = `off`
+    
+        axios.get(`http://`+urlServer+`/led?signal=`+ signal+ `&id=` + id)
+            .then(response => {
+                console.log(response)
+                })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+        // handle acknowledgment
+        return res;
+    }
 
     // const isLedOn = useSelector((state) => state.leds[id - 1].state)
 
@@ -20,7 +39,8 @@ function Led({ id }) {
             <li>{id}</li>
             <li>{<Display id={id} />}</li>
             <li><button onClick={() => {
-                dispatch(onOff(id)) // move to the server reception file
+                sendStateLed(true)
+                // dispatch(onOff(id)) // move to the server reception file
                 // add the led state selector in order to update the button text
                 // client.send(JSON.stringify({"type":"LED", "id":id, "action":"onOff"}))
             }}>Start</button></li>
@@ -28,7 +48,6 @@ function Led({ id }) {
     </div>)
 
 }
-
 
 export default Led
 

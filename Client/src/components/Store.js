@@ -27,9 +27,10 @@ export const addLed = (id, connect) => ({
 
 export const restartLed = { "type": "restart" };
 
-export const startStopChenillard = {
-  "type": "startStopChenillard"
-}
+export const startStopChenillard = (state) => ({
+  "type": "startStopChenillard",
+  "state": state
+});
 
 export const createServer = (websocket) => ({
   "type": "createServer",
@@ -70,7 +71,7 @@ function reducer(state = initialState, action) {
 
   if (action.type === "startStopChenillard") {
     let currentChenillard = state.chenillard
-    currentChenillard.state = !currentChenillard.state
+    currentChenillard.state = action.state
     let currentColor = currentChenillard.colorButton
     if(currentColor === "red") currentChenillard.colorButton = 'green'
     else currentChenillard.colorButton = 'red'

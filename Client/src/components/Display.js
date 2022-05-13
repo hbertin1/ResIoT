@@ -27,7 +27,7 @@ function Display({ id }) {
 
     
     if (isLedConnected) {
-        sendStateLed(isLedOn)
+        // sendStateLed(isLedOn)
         if (isLedOn) {
             return <li>🟢</li>
         }
