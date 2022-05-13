@@ -161,9 +161,6 @@ async function chenillard() {
 
 function rChenillard(newIndex, tabLight){
   oldIndex = newIndex;
-  console.log(oldIndex)
-  console.log(newIndex)
-  console.log(direction)
   if(direction){
     if(oldIndex == tabLight.length-1){
       newIndex = 0;
@@ -173,11 +170,8 @@ function rChenillard(newIndex, tabLight){
     }
   }
   else{
-    console.log(oldIndex)
-    console.log(newIndex)
     if(oldIndex == 0){
       newIndex = tabLight.length-1;
-      console.log(newIndex)
     }
     else {
       newIndex = oldIndex-1;
@@ -191,7 +185,6 @@ function rChenillard(newIndex, tabLight){
 }
 
 function startStopChenillard() {
-  console.log(timerId)
   if(timerId === undefined) {
     rChenillard(indexChenillard, tabLight);
   }

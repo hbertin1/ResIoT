@@ -22,6 +22,7 @@ router
     .get('/chenillard', (request, response) => {        //Réception des commandes sur le chenillard
         switch (request.query.signal) {
             case 'on':
+                console.log('test tu rentre la ou quoi?')
                 knx.startStopChenillard();
                 // Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
                 var speedChe = request.query.speed;                 //Vitesse du chenillard           
