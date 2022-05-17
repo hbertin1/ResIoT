@@ -15,7 +15,7 @@ const initialState = {
 // actions creators
 
 export const onOffLed = (deviceId, state) => ({ 
-  "type": "onOff",
+  "type": "onOffLed",
   "id": deviceId,
   "state": state
 });
@@ -50,6 +50,7 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === "addLed") {
+    console.log(action);
     let led = undefined
     led = {
       "id": action.id,
@@ -60,11 +61,10 @@ function reducer(state = initialState, action) {
     state.leds.splice(action.id-1, 1, led)
   }
 
-  if (action.type === "onOff") {
+  if (action.type === "onOffLed") {
     const index = action.id-1
     let copy_leds = state.leds
     let led_to_modify = copy_leds[index]
-    let state2change = led_to_modify.state
     led_to_modify.state = action.state
     copy_leds.splice(index, 1, led_to_modify)
     return { ...state, leds:copy_leds };
@@ -82,6 +82,10 @@ function reducer(state = initialState, action) {
   if(action.type === "createServer") {
     let serverWS = action.websocket
     return { ...state, server: serverWS };
+  }
+
+  if(action.type === "reverseChenillard") {
+    return { ...state};
   }
 
   return state;

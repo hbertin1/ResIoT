@@ -29,6 +29,10 @@ class Json {
         return JSON.stringify({ "device" : device, "id": id, "action": action, "state": state});
     }
 
+    ledConnection(device, id, action, connect_status) {
+        return JSON.stringify({ "device" : device, "id": id, "action": action, "connect_status": connect_status});
+    }
+
 
 }
 

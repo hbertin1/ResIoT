@@ -219,6 +219,10 @@ exitHook(cb => {
 
 function initWebSocket(webSocket){
   ws = webSocket;
+  for(var i = 1; i < tabLight.length+1; i++) {
+    sendMessage(json.ledConnection("led", i, "addLed", "connected"));
+    console.log("web message send")
+  }
 }
 
 

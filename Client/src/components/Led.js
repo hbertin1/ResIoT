@@ -1,10 +1,4 @@
-//T0D0 : bien gerer les websockets a l'aide de
-// https://blog.logrocket.com/websockets-tutorial-how-to-go-real-time-with-node-and-react-8e4693fbf843/
-
-import Body from './Body'
-import Display from './Display'
-import { useDispatch } from 'react-redux'
-import { onOff, addLed, startStopChenillard } from "./Store";
+// import Display from './Display'
 import { useSelector } from 'react-redux'
 
 const axios = require('axios')
@@ -12,18 +6,18 @@ const urlServer = '127.0.0.1:8000'
 
 function Led({ id }) {
 
-    const dispatch = useDispatch()
-    dispatch(addLed(id, true))
+    const isLedConnected = useSelector((state) => state.leds[id - 1].connected)
+    const isLedOn = useSelector((state) => state.leds[id - 1].state)
 
     function sendStateLed(currentState) {
         let res = false;
         let signal = `on`
         if (!currentState) signal = `off`
-    
-        axios.get(`http://`+urlServer+`/led?signal=`+ signal+ `&id=` + id)
+
+        axios.get(`http://` + urlServer + `/led?signal=` + signal + `&id=` + id)
             .then(response => {
                 console.log(response)
-                })
+            })
             .catch(function (error) {
                 // handle error
                 console.log(error);
@@ -32,18 +26,25 @@ function Led({ id }) {
         return res;
     }
 
-    // const isLedOn = useSelector((state) => state.leds[id - 1].state)
-
     return (<div>
         <ul>
             <li>{id}</li>
-            <li>{<Display id={id} />}</li>
+            {/* <li>{<Display id={id} />}</li> */}
+            {/* A valider debut */}
+            <li>{isLedOn ? '🟢' : '🔴'}</li>
             <li><button onClick={() => {
-                sendStateLed(true)
-                // dispatch(onOff(id)) // move to the server reception file
-                // add the led state selector in order to update the button text
-                // client.send(JSON.stringify({"type":"LED", "id":id, "action":"onOff"}))
-            }}>Start</button></li>
+                sendStateLed(true);
+            }}>{() => {
+                if (isLedConnected) {
+                    if (isLedOn) {
+                        return 'Stop';
+                    }
+                    else return 'Start';
+                }
+                else return 'disconnected';
+            }
+                }</button></li>
+                {/* A valider fin */}
         </ul>
     </div>)
 

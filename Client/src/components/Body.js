@@ -1,61 +1,68 @@
-import Led from './Led'
-import { useDispatch } from 'react-redux'
-import { createServer } from './Store'
-import ChenillardBtn from './ChenillardBtn'
-import { useSelector } from 'react-redux'
+import Led from './Led';
+import ChenillardBtn from './ChenillardBtn';
+import { useSelector } from 'react-redux';
 import { parseDataRcvd } from './ParserServer';
+import Slider from '@mui/material/Slider';
 
 
 const axios = require('axios')
-const urlServer = '//127.0.0.1:8000'
+const urlServer = '127.0.0.1:8000'
 
 function Body() {
 
     const ledNumber = useSelector((state) => state.ledNumber)
+    var valueSlider = 0;
+
+    function addLeds(ledNumber) {
+        var rows = [];
+        for (let i = 1; i <= ledNumber; i++) {
+            rows.push(<td><Led id={i} /></td>)
+        }
+        return rows;
+    }
+
+    function handleSliderChange(event, value) {
+        if (value > valueSlider + 10 || value < valueSlider - 10) {
+            console.log(value);
+            axios.get(`http://` + urlServer + `/chenillard?speed=` + value)
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+            // handle acknowledgment
+        }
+        valueSlider = value;
+    }
 
     return (
         <div class="tableChenillard">
             {<div>
                 <table>
                     <tr>
-                        {/* automatiser le nombre de Led à afficher */}
-                        <td><Led id={1} /></td>
+                        {/* A VALIDER LE ADDLED() */}
+                        {addLeds(ledNumber)}
+                        {/* <td><Led id={1} /></td>
                         <td><Led id={2} /></td>
                         <td><Led id={3} /></td>
-                        <td><Led id={4} /></td>
+                        <td><Led id={4} /></td> */}
                     </tr>
                 </table>
             </div>}
-            <div>
-                <ChenillardBtn/>
+            <div class="slider">
+                <Slider aria-label="Speed"
+                    // value={valueSlider}
+                    onChange={handleSliderChange}
+                />
+                {console.log(valueSlider)}
+            </div>
+            <div class="chenillardBtn">
+                <ChenillardBtn />
             </div>
         </div>
     )
 }
 
 export default Body
-
-
-
-
-
-
-
-
-
-// // TODO: how changing the leds preview when the chenillard is running
-// function sendStartSignalChenillard(currentState) {
-//     let res = false;
-//     let signal = `on`
-//     if (currentState) signal = `off`
-
-//     axios.get(`http://` + urlServer + `/chenillard?signal=` + signal)
-//         .then(response => (console.log(response)))
-//         .catch(function (error) {
-//             // handle error
-//             console.log(error);
-//         })
-
-//     // handle acknowledgment
-//     return res;
-// }

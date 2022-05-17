@@ -31,7 +31,7 @@ function ChenillardBtn() {
         <button
             style={{ background: {colorChenillardBtn} }} 
             onClick={sendStartSignalChenillard(isChenillardOn)}>
-            {isChenillardOn ? "Start the Chenillard":"Stop the Chenillard"}
+            {isChenillardOn ? "Stop the Chenillard":"Start the Chenillard"}
             {console.log(colorChenillardBtn)}
         </button>
     )
