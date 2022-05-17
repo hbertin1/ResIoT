@@ -29,7 +29,7 @@ function Body() {
     }
 
     function handleSliderChange(event, value) {
-        if (value > valueSlider + 10 || value < valueSlider - 10) {
+        // if (value > valueSlider + 10 || value < valueSlider - 10) {
             console.log(value);
             axios.get(`http://` + urlServer + `/chenillard?speed=` + value)
                 .then(response => {
@@ -40,7 +40,7 @@ function Body() {
                     console.log(error);
                 })
             // handle acknowledgment
-        }
+        // }
         valueSlider = value;
     }
 
@@ -61,7 +61,7 @@ function Body() {
             <div class="slider">
                 <Slider aria-label="Speed"
                     // value={valueSlider}
-                    // onChange={handleSliderChange}
+                    onChange={handleSliderChange}
                 />
                 {console.log(valueSlider)}
             </div>

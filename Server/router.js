@@ -25,15 +25,19 @@ router
                 knx.startStopChenillard();
                 console.log('est ce qie')
                 // Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
-                var speedChe = request.query.speed;                 //Vitesse du chenillard           
-                var directionChe = request.query.direction;         //direction du chenillard (true = right, false = left)
                 response.send("Ack Chenillard ON")
                 break;
             case 'off':
                 knx.startStopChenillard();
                 response.send("Ack Chenillard OFF")
                 break;
-        }  
+        }
+        if(request.query.speed) {
+            var speedChe = request.query.speed;                 //Vitesse du chenillard
+            knx.changeSpeedChenillard(speedChe);           
+            // var directionChe = request.query.direction;         //direction du chenillard (true = right, false = left)
+            response.send("Ack Chenillard speed")
+        } 
     })
     .get('/led', (request, response) => {                       //Réception des commandes sur les Leds
         knx.switchLed(request.query.id, request.query.signal)                  

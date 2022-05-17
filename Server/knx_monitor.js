@@ -6,7 +6,7 @@ const json = new Json();
 
 var connection = new knx.Connection({
   // ip address and port of the KNX router or interface
-  ipAddr: '192.168.0.201', ipPort: 3671,
+  ipAddr: '192.168.0.202', ipPort: 3671,
   // in case you need to specify the multicast interface (say if you have more than one)
   // interface: 'utun2',
   // the KNX physical address we'd like to use
@@ -113,7 +113,7 @@ var light4 = new knx.Devices.BinarySwitch({ ga: '0/0/4', status_ga: '0/0/104' },
 
 let tabLight = [];
 tabLight.push(light1, light2, light3, light4)
-var speed = 0.2;
+var speed = 200;
 var timerId;
 var indexChenillard=0;
 var direction = true;
@@ -186,7 +186,7 @@ function rChenillard(newIndex, tabLight){
       switchLedChenillard(oldIndex, newIndex)
       rChenillard(newIndex, tabLight);
       indexChenillard = newIndex;
-  },1000*speed);
+  }, speed);
 }
 
 function startStopChenillard() {
@@ -225,9 +225,14 @@ function initWebSocket(webSocket){
   }
 }
 
+function changeSpeedChenillard(new_speed) {
+  speed = (-8*new_speed) + 1000;
+}
+
 
 module.exports = {
   startStopChenillard: function () { startStopChenillard() },
   switchLed: function (id, state2change) { switchLed(id, state2change)},
-  initWebSocket: function (webSocket) { initWebSocket(webSocket)}
+  initWebSocket: function (webSocket) { initWebSocket(webSocket)},
+  changeSpeedChenillard: function (new_speed) { changeSpeedChenillard(new_speed)}
 }
