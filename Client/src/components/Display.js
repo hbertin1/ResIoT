@@ -6,6 +6,7 @@ function Display({ id }) {
     const isLedOn = useSelector((state) => state.leds[id - 1].state)
     
     if (isLedConnected) {
+        console.log(isLedOn)
         if (isLedOn) {
             return <li>🟢</li>
         }

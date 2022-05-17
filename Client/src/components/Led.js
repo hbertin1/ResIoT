@@ -1,4 +1,4 @@
-// import Display from './Display'
+import Display from './Display'
 import { useSelector } from 'react-redux'
 
 const axios = require('axios')
@@ -29,9 +29,12 @@ function Led({ id }) {
     return (<div>
         <ul>
             <li>{id}</li>
-            {/* <li>{<Display id={id} />}</li> */}
+            <li>{<Display id={id} />}</li>
+            <li><button onClick={() => {
+                sendStateLed(!isLedOn);
+            }}>Led</button></li>
             {/* A valider debut */}
-            <li>{isLedOn ? '🟢' : '🔴'}</li>
+            {/* <li>{isLedOn ? '🟢' : '🔴'}</li>
             <li><button onClick={() => {
                 sendStateLed(true);
             }}>{() => {
@@ -43,7 +46,7 @@ function Led({ id }) {
                 }
                 else return 'disconnected';
             }
-                }</button></li>
+                }</button></li> */}
                 {/* A valider fin */}
         </ul>
     </div>)

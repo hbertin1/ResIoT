@@ -18,8 +18,6 @@ export function parseDataRcvd(data) {
     
     let dataParsed = JSON.parse(data);              // not sure
     console.log(dataParsed);
-
-    let json;
     
     switch (dataParsed.device) {
         case 'chenillard':
@@ -27,14 +25,14 @@ export function parseDataRcvd(data) {
                 case 'switch':
                     switch (dataParsed.state) {
                         case 'on':
-                            json = ({
+                            var json = ({
                                 "type": "onOff",
                                 "state": true
                             });
                             store.dispatch(json)
                             break;
                         case 'off':
-                            json = ({
+                            var json = ({
                                 "type": "onOff",
                                 "state": false
                             });
@@ -46,7 +44,7 @@ export function parseDataRcvd(data) {
                     }
                     break;
                 case 'reverse':
-                    json = ({
+                    var json = ({
                         "type": "reverseChenillard"
                     });
                     store.dispatch(json)
@@ -61,7 +59,7 @@ export function parseDataRcvd(data) {
                 case 'switch':
                     switch (dataParsed.state) {
                         case 'on':
-                            json = ({
+                            var json = ({
                                 "type": "onOffLed",
                                 "id": dataParsed.id,
                                 "state": true
@@ -69,7 +67,7 @@ export function parseDataRcvd(data) {
                             store.dispatch(json)
                             break;
                         case 'off':
-                            json = ({
+                            var json = ({
                                 "type": "onOffLed",
                                 "id": dataParsed.id,
                                 "state": false
@@ -84,7 +82,7 @@ export function parseDataRcvd(data) {
                 case 'addLed':
                     switch (dataParsed.connect_status) {
                         case 'connected':
-                            json = ({
+                            var json = ({
                                 "type": "addLed",
                                 "id": dataParsed.id,
                                 "connected": true
@@ -92,12 +90,12 @@ export function parseDataRcvd(data) {
                             store.dispatch(json)
                             break;
                         case 'not_connected':
-                            json = ({
+                            var json = ({
                                 "type": "addLed",
                                 "id": dataParsed.id,
                                 "connected": false
                             });
-                            store.dispatch(json)
+                            // store.dispatch(json)
                             break;
                         default:
                             console.error("Unknown data received: " + dataParsed)
@@ -113,6 +111,5 @@ export function parseDataRcvd(data) {
             console.error("Unknown data received: " + dataParsed)
             break
     }
-    json = null;
 
 } 

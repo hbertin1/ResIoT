@@ -50,7 +50,6 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === "addLed") {
-    console.log(action);
     let led = undefined
     led = {
       "id": action.id,
@@ -62,11 +61,13 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === "onOffLed") {
+    console.log(action)
     const index = action.id-1
     let copy_leds = state.leds
     let led_to_modify = copy_leds[index]
     led_to_modify.state = action.state
     copy_leds.splice(index, 1, led_to_modify)
+    console.log(copy_leds[index].state)
     return { ...state, leds:copy_leds };
   }
 

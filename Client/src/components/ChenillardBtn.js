@@ -8,12 +8,13 @@ function ChenillardBtn() {
     const isChenillardOn = useSelector((state) => state.chenillard.state)
     const colorChenillardBtn = useSelector((state) => state.chenillard.colorChenillardBtn)
 
-    function sendStartSignalChenillard(currentState) {
+    function sendStartSignalChenillard() {
+        console.log('sendStartSignalChenillard')
         let res = false;
         let signal = `on`
         let speed = 10
         let direction = false
-        if (currentState) signal = `off`
+        if (isChenillardOn) signal = `off`
 
         axios.get(`http://` + urlServer + `/chenillard?signal=` + signal + `&speed=` + speed + `&direction=` + direction)
             .then(response => {
@@ -30,7 +31,8 @@ function ChenillardBtn() {
     return(
         <button
             style={{ background: {colorChenillardBtn} }} 
-            onClick={sendStartSignalChenillard(isChenillardOn)}>
+            onClick={() => sendStartSignalChenillard()}
+            >
             {isChenillardOn ? "Stop the Chenillard":"Start the Chenillard"}
             {console.log(colorChenillardBtn)}
         </button>
