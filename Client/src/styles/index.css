@@ -46,6 +46,11 @@ button {
   margin: 5px;
 }
 
+.chenillardBtn {
+  padding: auto;
+  margin: auto;
+}
+
 button:hover {
   background-color: green;
 }

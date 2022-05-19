@@ -7,7 +7,8 @@ const initialState = {
     chenillard: {
       state: false,
       speed: 0, 
-      colorButton: "red"
+      colorButton: "red",
+      direction: true
     },
     serverWS: undefined
 };

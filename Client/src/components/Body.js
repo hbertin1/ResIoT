@@ -1,5 +1,6 @@
 import Led from './Led';
 import ChenillardBtn from './ChenillardBtn';
+import DirectionBtn from './DirectionBtn';
 // import { useSelector } from 'react-redux';
 import { parseDataRcvd } from './ParserServer';
 import Slider from '@mui/material/Slider';
@@ -41,7 +42,23 @@ function Body() {
                 })
             // handle acknowledgment
         }
-        valueSlider = value;
+        
+        
+        function directionChange() {
+            if (value > valueSlider + 10 || value < valueSlider - 10) {
+                console.log(value);
+                axios.get(`http://` + urlServer + `/chenillard?speed=` + value)
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                // handle acknowledgment
+            }
+            valueSlider = value;
+        }valueSlider = value;
     }
 
     return (
@@ -67,6 +84,7 @@ function Body() {
             </div>
             <div class="chenillardBtn">
                 <ChenillardBtn />
+                <DirectionBtn />
             </div>
         </div>
     )

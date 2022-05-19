@@ -161,10 +161,10 @@ function switchLedChenillard(oldIndex, newIndex) {
   tabLight[newIndex].switchOn();
   sendMessage(json.ledKnx("led",newIndex+1,"switch","on"))
   sendMessage(json.ledKnx("led",oldIndex+1,"switch","off"))
-  
 }
 
 function rChenillard(newIndex, tabLight){
+  console.log(newIndex)
   oldIndex = newIndex;
   if(direction){
     if(oldIndex == tabLight.length-1){
@@ -188,6 +188,32 @@ function rChenillard(newIndex, tabLight){
       indexChenillard = newIndex;
   },1000*speed);
 }
+
+
+function rChenillard2(newIndex, tabLight , allState){
+  console.log(newIndex)
+  oldIndex = newIndex;
+  allState = allState;
+  console.log(oldIndex)
+  if(oldIndex == tabLight.length-1){
+    allState='off'
+    newIndex = oldIndex-1
+  }
+  else if(allState='off'){
+    newIndex = oldIndex-1
+  }
+  else if(oldIndex == 0){
+    allState = 'on'
+    newIndex = oldIndex+1
+  }
+  timerId = setTimeout(function(){
+    switchLed(newIndex+1, allState)
+    rChenillard2(newIndex, tabLight)
+    indexChenillard = newIndex;
+},1000*speed);
+}
+
+
 
 function startStopChenillard() {
   if(timerId === undefined) {
