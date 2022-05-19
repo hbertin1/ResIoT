@@ -164,7 +164,6 @@ function switchLedChenillard(oldIndex, newIndex) {
 }
 
 function rChenillard(newIndex, tabLight){
-  console.log(newIndex)
   oldIndex = newIndex;
   if(direction){
     if(oldIndex == tabLight.length-1){
@@ -255,10 +254,19 @@ function changeSpeedChenillard(new_speed) {
   speed = (-8*new_speed) + 1000;
 }
 
+function changeDirectionChenillard(new_direction){
+  console.log(new_direction)
+  direction = new_direction;
+  console.log(direction)
+  console.log(json.directionChenillard("chenillard", "reverse", direction))
+  sendMessage(json.directionChenillard("chenillard", "reverse", direction))
+}
+
 
 module.exports = {
   startStopChenillard: function () { startStopChenillard() },
   switchLed: function (id, state2change) { switchLed(id, state2change)},
   initWebSocket: function (webSocket) { initWebSocket(webSocket)},
-  changeSpeedChenillard: function (new_speed) { changeSpeedChenillard(new_speed)}
+  changeSpeedChenillard: function (new_speed) { changeSpeedChenillard(new_speed)},
+  changeDirectionChenillard : function(new_direction) {changeDirectionChenillard(new_direction)}
 }

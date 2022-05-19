@@ -25,8 +25,17 @@ class Json {
         return JSON.stringify({ "device" : device, "action": action, "state": state});
     }
 
+    directionChenillard(device, action, state){
+        console.log("test")
+        return JSON.stringify({ "device" : device, "action": action, "state": state});
+    }
+
     ledKnx(device, id, action, state){
         return JSON.stringify({ "device" : device, "id": id, "action": action, "state": state});
+    }
+
+    ledConnection(device, id, action, connect_status) {
+        return JSON.stringify({ "device" : device, "id": id, "action": action, "connect_status": connect_status});
     }
 
     ledConnection(device, id, action, connect_status) {

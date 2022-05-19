@@ -9,13 +9,11 @@ function DirectionBtn() {
     //const colorChenillardBtn = useSelector((state) => state.chenillard.colorChenillardBtn)
 
     //Afficher sur le bouton la direction : droite ou gauche
-
+    console.log(chenillardDirection)
     function directionChenillard() {
-        var direction;
-        if (chenillardDirection) direction = `false`
-        else direction = 'true'
+        console.log("chenillard ", chenillardDirection)
 
-        axios.get(`http://` + urlServer + `/chenillard?&direction=` + direction)
+        axios.get(`http://` + urlServer + `/chenillard?&direction=` + !chenillardDirection) //Changer 
             .then(response => {
                 console.log(response)
             })
