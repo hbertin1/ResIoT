@@ -45,7 +45,8 @@ export function parseDataRcvd(data) {
                     break;
                 case 'reverse':
                     var json = ({
-                        "type": "reverseChenillard"
+                        "type": "reverseChenillard",
+                        "state" : dataParsed.state
                     });
                     store.dispatch(json)
                     break;

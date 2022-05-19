@@ -35,8 +35,13 @@ router
         if(request.query.speed) {
             var speedChe = request.query.speed;                 //Vitesse du chenillard
             knx.changeSpeedChenillard(speedChe);           
-            // var directionChe = request.query.direction;         //direction du chenillard (true = right, false = left)
             response.send("Ack Chenillard speed")
+        } 
+
+        if(request.query.direction) {
+            var directionChe = request.query.direction;              //direction du chenillard (true = right, false = left)    
+            knx.changeDirectionChenillard(directionChe);           
+            response.send("Ack Chenillard direction")
         } 
     })
     .get('/led', (request, response) => {                       //Réception des commandes sur les Leds

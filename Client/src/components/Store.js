@@ -7,7 +7,8 @@ const initialState = {
     chenillard: {
       state: false,
       speed: 0, 
-      colorButton: "red"
+      colorButton: "red",
+      direction: true
     },
     serverWS: undefined
 };
@@ -86,8 +87,18 @@ function reducer(state = initialState, action) {
   }
 
   if(action.type === "reverseChenillard") {
-    return { ...state};
+    let currentChenillard = state.chenillard
+    
+    if(action.state === "false"){
+      currentChenillard.direction = false
+    }
+    else{
+      currentChenillard.direction = true
+    }
+    console.log("action state", action.state)
+    return { ...state, chenillard : currentChenillard};
   }
+  
 
   if(action.type === "setSpeed") {
     let currentChenillard = state.chenillard;

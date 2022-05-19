@@ -161,7 +161,6 @@ function switchLedChenillard(oldIndex, newIndex) {
   tabLight[newIndex].switchOn();
   sendMessage(json.ledKnx("led",newIndex+1,"switch","on"))
   sendMessage(json.ledKnx("led",oldIndex+1,"switch","off"))
-  
 }
 
 function rChenillard(newIndex, tabLight){
@@ -188,6 +187,32 @@ function rChenillard(newIndex, tabLight){
       indexChenillard = newIndex;
   }, speed);
 }
+
+
+function rChenillard2(newIndex, tabLight , allState){
+  console.log(newIndex)
+  oldIndex = newIndex;
+  allState = allState;
+  console.log(oldIndex)
+  if(oldIndex == tabLight.length-1){
+    allState='off'
+    newIndex = oldIndex-1
+  }
+  else if(allState='off'){
+    newIndex = oldIndex-1
+  }
+  else if(oldIndex == 0){
+    allState = 'on'
+    newIndex = oldIndex+1
+  }
+  timerId = setTimeout(function(){
+    switchLed(newIndex+1, allState)
+    rChenillard2(newIndex, tabLight)
+    indexChenillard = newIndex;
+},1000*speed);
+}
+
+
 
 function startStopChenillard() {
   if(timerId === undefined) {
@@ -229,10 +254,19 @@ function changeSpeedChenillard(new_speed) {
   speed = (-8*new_speed) + 1000;
 }
 
+function changeDirectionChenillard(new_direction){
+  console.log(new_direction)
+  direction = new_direction;
+  console.log(direction)
+  console.log(json.directionChenillard("chenillard", "reverse", direction))
+  sendMessage(json.directionChenillard("chenillard", "reverse", direction))
+}
+
 
 module.exports = {
   startStopChenillard: function () { startStopChenillard() },
   switchLed: function (id, state2change) { switchLed(id, state2change)},
   initWebSocket: function (webSocket) { initWebSocket(webSocket)},
-  changeSpeedChenillard: function (new_speed) { changeSpeedChenillard(new_speed)}
+  changeSpeedChenillard: function (new_speed) { changeSpeedChenillard(new_speed)},
+  changeDirectionChenillard : function(new_direction) {changeDirectionChenillard(new_direction)}
 }

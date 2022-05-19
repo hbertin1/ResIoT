@@ -1,6 +1,8 @@
 import Led from './Led';
 import ChenillardBtn from './ChenillardBtn';
 import { useSelector } from 'react-redux';
+import DirectionBtn from './DirectionBtn';
+// import { useSelector } from 'react-redux';
 import { parseDataRcvd } from './ParserServer';
 import Slider from '@mui/material/Slider';
 // import { useDispatch } from 'react-redux';
@@ -62,6 +64,7 @@ function Body() {
             </div>
             <div class="chenillardBtn">
                 <ChenillardBtn />
+                <DirectionBtn />
             </div>
         </div>
     )
