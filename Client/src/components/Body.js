@@ -1,9 +1,9 @@
 import Led from './Led';
 import ChenillardBtn from './ChenillardBtn';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { parseDataRcvd } from './ParserServer';
 import Slider from '@mui/material/Slider';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { addLed } from './Store';
 
 
@@ -12,13 +12,9 @@ const urlServer = '127.0.0.1:8000'
 
 function Body() {
 
-    const dispatch = useDispatch(); 
-    dispatch(addLed(1, true));
-    dispatch(addLed(2, true));
-    dispatch(addLed(3, true));
-    dispatch(addLed(4, true));
-    // const ledNumber = useSelector((state) => state.ledNumber)
-    var valueSlider = 0;
+    const ledNumber = useSelector((state) => state.ledNumber)
+    // var valueSlider = 0;
+    const valueSlider = useSelector((state) => state.chenillard.speed);
 
     function addLeds(ledNumber) {
         var rows = [];
@@ -29,7 +25,7 @@ function Body() {
     }
 
     function handleSliderChange(event, value) {
-        // if (value > valueSlider + 10 || value < valueSlider - 10) {
+        if (value > valueSlider + 10 || value < valueSlider - 10) {
             console.log(value);
             axios.get(`http://` + urlServer + `/chenillard?speed=` + value)
                 .then(response => {
@@ -40,7 +36,7 @@ function Body() {
                     console.log(error);
                 })
             // handle acknowledgment
-        // }
+        }
         valueSlider = value;
     }
 
@@ -63,7 +59,6 @@ function Body() {
                     // value={valueSlider}
                     onChange={handleSliderChange}
                 />
-                {console.log(valueSlider)}
             </div>
             <div class="chenillardBtn">
                 <ChenillardBtn />

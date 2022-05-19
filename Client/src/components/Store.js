@@ -89,6 +89,12 @@ function reducer(state = initialState, action) {
     return { ...state};
   }
 
+  if(action.type === "setSpeed") {
+    let currentChenillard = state.chenillard;
+    currentChenillard.speed = action.speed;
+    return { ...state, chenillard:currentChenillard};
+  }
+
   return state;
 }
 
