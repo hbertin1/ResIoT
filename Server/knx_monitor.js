@@ -284,6 +284,7 @@ function startStopChenillard() {
     }
   }
   else {
+    console.log('disconnect')
     clearTimeout(timerId);
     timerId = undefined;
     sendMessage(json.chenillardKnx("chenillard", "switch", "off"))

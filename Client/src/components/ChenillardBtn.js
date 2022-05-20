@@ -9,7 +9,7 @@ function ChenillardBtn() {
     const colorChenillardBtn = useSelector((state) => state.chenillard.colorChenillardBtn)
 
     function sendStartSignalChenillard() {
-        console.log('sendStartSignalChenillard')
+        console.log(isChenillardOn)
         let res = false;
         let signal = `on`
         let speed = 10
@@ -31,8 +31,7 @@ function ChenillardBtn() {
     return(
         <button
             style={{ background: {colorChenillardBtn} }} 
-            onClick={() => sendStartSignalChenillard()}
-            >
+            onClick={() => sendStartSignalChenillard()}>
             {isChenillardOn ? "Stop the Chenillard":"Start the Chenillard"}
             {console.log(colorChenillardBtn)}
         </button>

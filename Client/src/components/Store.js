@@ -95,7 +95,6 @@ function reducer(state = initialState, action) {
   if(action.type === "reverseChenillard") {
     let currentChenillard = state.chenillard
     currentChenillard.direction = !action.state
-    console.log(currentChenillard.direction)
     return { ...state, chenillard : currentChenillard};
   }
   

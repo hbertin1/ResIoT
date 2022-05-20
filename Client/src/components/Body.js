@@ -49,8 +49,12 @@ function Body() {
                 <SelectPattern />
             </div>
             <div class="chenillardBtn">
-                <ChenillardBtn />
-                <DirectionBtn />
+            <table>
+                    <tr>
+                        <td><ChenillardBtn /></td>
+                        <td><DirectionBtn /></td>
+                    </tr>
+                </table>
             </div>
         </div>
     )
