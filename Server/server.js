@@ -17,9 +17,6 @@ knx.initWebSocket(wsServer);
 
 wsServer.on('connection', socket => {
   socket.on('message', function (data) {
-    console.log("Connexion websocket")
-    //msg = JSON.parse(data.toString("utf8"))
-    //récupération du KNX et envoie un message en websocket json lorqu'il y a le chenillard 
   })
 });
 

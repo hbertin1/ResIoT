@@ -1,3 +1,5 @@
+//Classe pour les tests avant l'utilisation de la maquette
+
 class Chenillard{
 
     /**

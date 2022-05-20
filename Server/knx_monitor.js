@@ -27,7 +27,6 @@ var connection = new knx.Connection({
   handlers: {
     // wait for connection establishment before sending anything!
     connected: function () {
-      console.log('Hurray, I can talk KNX!');
       // WRITE an arbitrary boolean request to a DPT1 x address
       connection.write("0/0/1", 1);
       // you can also issue a READ request and pass a callback to capture the response
@@ -45,34 +44,13 @@ var connection = new knx.Connection({
         case '1/0/1':
           valueStringified = JSON.stringify(value);
           valueparsed = JSON.parse(valueStringified);
-          console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
-            //envoie état btn pour websocket
-
             startStopChenillard();
           }
-          break;
-          //     // console.log("test The current light1 status is %j", light1.status);
-          //     // if(JSON.stringify(light1.status.current_value)) {
-          //     //   light1.switchOff()
-          //     // } 
-          //     // else {
-          //     //   light1.switchOn()
-          //     // }
-
-          //     // if (valueparsed.data[0] === 0) {
-          //     //   console.log("test")
-          //     //   light1.switchOff()
-          //     // }
-          // else {
-          //   console.log("test2")
-          //   light1.switchOn()
-          // }
           break;
         case '1/0/2':
           valueStringified = JSON.stringify(value);
           valueparsed = JSON.parse(valueStringified);
-          console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
             changeDirectionChenillard(direction.toString());
           }
@@ -80,7 +58,6 @@ var connection = new knx.Connection({
         case '1/0/3':
           valueStringified = JSON.stringify(value);
           valueparsed = JSON.parse(valueStringified);
-          console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
             if (speed * 2 > 1100) speed = 1100;
             speed = speed * 2;
@@ -90,7 +67,6 @@ var connection = new knx.Connection({
         case '1/0/4':
           valueStringified = JSON.stringify(value);
           valueparsed = JSON.parse(valueStringified);
-          console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
             if (speed / 2 < 300) speed = 300;
             speed = speed / 2;
@@ -134,20 +110,9 @@ light1.control.on('change', function (oldvalue, newvalue) {
 light1.status.on('change', function (oldvalue, newvalue) {
   console.log("**** light1 status changed from: %j to: %j", oldvalue, newvalue);
 });
-//light1.switchOn(); // or switchOff();
 
-function switchLight() {
-  if (ligthState) {
-    light1.switchOff();
-  }
-  else {
-    light1.switchOn();
-  }
-  // connection.read("0/0/1", (src, responsevalue) => {
-  //   console.log("src : %s , responsevalue : %s", src, responsevalue);
-  // });
-  // console.log("The current light1 status is %j", light1.status.current_value);
-}
+
+
 
 function switchLed(id, state2change) {
   led = tabLight[id - 1];
@@ -192,62 +157,6 @@ function rChenillard(newIndex, tabLight) {
     indexChenillard = newIndex;
   }, speed);
 }
-
-function switchLedChenillardDoubleLed(oldIndex, indexFinal) {
-  if(oldIndex >= tabLight.length - 1) indexFinal = 0;
-  console.log("oldIndex %d, indexFinal %d", oldIndex, indexFinal);
-  tabLight[oldIndex].switchOff();
-  tabLight[indexFinal].switchOn();
-  sendMessage(json.ledKnx("led", indexFinal + 1, "switch", "on"))
-  sendMessage(json.ledKnx("led", oldIndex + 1, "switch", "off"))
-}
-
-function rChenillardDoubleLed(indexInit, indexFinal, tabLight) {
-  oldIndex = indexInit;
-  if (oldIndex == tabLight.length - 1) {
-    indexInit = 0;
-    indexFinal = indexFinal + 1;
-  }
-  else if (oldIndex + 1 == tabLight.length - 1) {
-    indexFinal = 0;
-    indexInit = oldIndex + 1;
-  }
-  else {
-    indexInit = oldIndex + 1;
-    indexFinal = indexFinal + 1;
-  }
-  /* LE REVERSE NE FONCTIONNE PAS
-  }
-  else{
-    console.log("indexInit:",indexInit)
-    console.log("indexFinal:",indexFinal)
-    if(oldIndex == 0){
-      indexInit = tabLight.length-1;
-      indexFinal = indexFinal-1;
-    }
-    else if(indexFinal == 0){
-      indexInit = indexInit-1;
-      indexFinal = tabLight.length-1;
-    }
-    else {
-      indexInit = indexInit-1;
-      indexFinal = indexFinal-1
-    }
-  }
-  */
-  timerId = setTimeout(function () {
-    switchLedChenillardDoubleLed(oldIndex, indexFinal)
-    rChenillardDoubleLed(indexInit, indexFinal, tabLight)
-    /*
-    else{
-      switchLedChenillard2(indexFinal, oldIndex)
-      rChenillard2( indexInit, indexFinal, tabLight);
-    }
-    */
-    indexChenillard = indexInit;
-  }, speed);
-}
-
 
 function switchLedChenillardFull(index, stateFull) {
   if (stateFull) {
@@ -364,10 +273,6 @@ function startStopChenillard() {
         sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
         rChenillard(indexChenillard, tabLight);
         break
-      case "doubleLed":
-        sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
-        rChenillardDoubleLed(indexChenillard, indexChenillard>4? 0: indexChenillard+1, tabLight);
-        break
       case "full":
         sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
         rChenillardFull(indexChenillard, tabLight, false);
@@ -396,7 +301,6 @@ function initWebSocket(webSocket) {
   ws = webSocket;
   for (var i = 1; i < tabLight.length + 1; i++) {
     sendMessage(json.ledConnection("led", i, "addLed", "connected"));
-    console.log("web message send")
   }
 }
 
