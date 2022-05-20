@@ -23,7 +23,7 @@ export function parseDataRcvd(data) {
         case "all":
             if(dataParsed.action === "disconnect") {
                 var json = {
-                    "action":"disconnectLeds"
+                    "type":"disconnectLeds"
                 }
                 store.dispatch(json)
                 break;
