@@ -124,6 +124,7 @@ var direction = true;
 var etatChenillard = false;
 var ligthState;
 var ws;
+motif = "chenillard"
 
 console.log("The current light1 status is %j", light1.status.current_value);
 light1.control.on('change', function (oldvalue, newvalue) {
@@ -257,8 +258,6 @@ function switchLedChenillardFull(index, stateFull) {
   }
 }
 
-
-
 function rChenillardFull(newIndex, tabLight, stateFull){
   oldIndex = newIndex
   stateFull = stateFull;
@@ -298,7 +297,6 @@ function rChenillardFull(newIndex, tabLight, stateFull){
       }
     }
   }
-  
   timerId = setTimeout(function(){
     switchLedChenillardFull(newIndex, stateFull)
     rChenillardFull(newIndex, tabLight, stateFull)
@@ -306,8 +304,59 @@ function rChenillardFull(newIndex, tabLight, stateFull){
   },speed);
 }
 
+function switchLedChenillardK2000(index, stateFull) {
+  if(stateFull){
+    tabLight[index].switchOff();
+    sendMessage(json.ledKnx("led",index+1,"switch","off"))
+  }
+  else{
+    tabLight[index].switchOn();
+    sendMessage(json.ledKnx("led",index+1,"switch","on"))
+  }
+}
+
+
+function rChenillardk2000(newIndex, tabLight, stateFull, changeDirection){
+  oldIndex = newIndex
+  stateFull = stateFull;
+  changeDirection = changeDirection
+  if(!changeDirection){
+    if(oldIndex == tabLight.length-1 && !stateFull){
+      stateFull=true
+      newIndex=0;
+    }
+    else if(oldIndex == tabLight.length-1 && stateFull){
+      stateFull = false
+      changeDirection = true
+      newIndex = tabLight.length-1
+      }
+    else{
+      newIndex = oldIndex+1
+    }
+  }
+  else{
+    if(oldIndex == 0 && !stateFull){
+      stateFull=true
+      newIndex=tabLight.length-1
+    }
+    else if(oldIndex == 0 && stateFull){
+      stateFull = false
+      changeDirection =false
+      newIndex = 0
+    }
+    else{
+      newIndex = oldIndex -1
+    }
+  }
+  timerId = setTimeout(function(){
+    switchLedChenillardK2000(newIndex, stateFull)
+    rChenillardk2000(newIndex, tabLight, stateFull, changeDirection)
+    indexChenillard = newIndex;
+  },speed);
+}
+
 function startStopChenillard(motif) {
-  console.log(motif)
+  motif = motif
   switch (motif){
     case "chenillard" :
       console.log("test")
@@ -336,6 +385,17 @@ function startStopChenillard(motif) {
         if(timerId === undefined) {
           sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
           rChenillardFull(indexChenillard, tabLight, false);
+        }
+        else {
+          clearTimeout(timerId);
+          timerId = undefined;
+          sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+        }
+        break
+      case "chenillardK2000":
+        if(timerId === undefined) {
+          sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
+          rChenillardFull(indexChenillard, tabLight, false, false);
         }
         else {
           clearTimeout(timerId);

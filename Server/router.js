@@ -22,8 +22,7 @@ router
     .get('/chenillard', (request, response) => {        //Réception des commandes sur le chenillard
         switch (request.query.signal) {
             case 'on':
-                knx.startStopChenillard();
-                console.log('est ce qie')
+                knx.startStopChenillard("chenillard");
                 // Si le chenillard non allumé on ne peut pas modifier ses différents paramètres
                 response.send("Ack Chenillard ON")
                 break;
@@ -43,6 +42,11 @@ router
             knx.changeDirectionChenillard(directionChe);           
             response.send("Ack Chenillard direction")
         } 
+        if(request.query.motif){                        //Changement du motif du chenillard
+            var motif = request.query.motif;
+            knx.startStopChenillard(motif);
+            response.send("Ack Chenillard motif")
+        }
     })
     .get('/led', (request, response) => {                       //Réception des commandes sur les Leds
         knx.switchLed(request.query.id, request.query.signal)                  
