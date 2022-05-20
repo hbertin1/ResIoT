@@ -7,6 +7,7 @@ import { parseDataRcvd } from './ParserServer';
 import Slider from '@mui/material/Slider';
 // import { useDispatch } from 'react-redux';
 import { addLed } from './Store';
+import SliderSpeed from './SliderSpeed';
 
 
 const axios = require('axios')
@@ -16,7 +17,6 @@ function Body() {
 
     const ledNumber = useSelector((state) => state.ledNumber)
     // var valueSlider = 0;
-    const valueSlider = useSelector((state) => state.chenillard.speed);
 
     function addLeds(ledNumber) {
         var rows = [];
@@ -26,21 +26,21 @@ function Body() {
         return rows;
     }
 
-    function handleSliderChange(event, value) {
-        if (value > valueSlider + 10 || value < valueSlider - 10) {
-            console.log(value);
-            axios.get(`http://` + urlServer + `/chenillard?speed=` + value)
-                .then(response => {
-                    console.log(response)
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                })
-            // handle acknowledgment
-        }
-        valueSlider = value;
-    }
+    // function handleSliderChange(event, value) {
+    //     if (value > valueSlider + 10 || value < valueSlider - 10) {
+    //         console.log(value);
+    //         axios.get(`http://` + urlServer + `/chenillard?speed=` + value)
+    //             .then(response => {
+    //                 console.log(response)
+    //             })
+    //             .catch(function (error) {
+    //                 // handle error
+    //                 console.log(error);
+    //             })
+    //         // handle acknowledgment
+    //     }
+    //     valueSlider = value;
+    // }
 
     return (
         <div class="tableChenillard">
@@ -57,10 +57,11 @@ function Body() {
                 </table>
             </div>}
             <div class="slider">
-                <Slider aria-label="Speed"
+                {/* <Slider aria-label="Speed"
                     // value={valueSlider}
                     onChange={handleSliderChange}
-                />
+                /> */}
+                <SliderSpeed />
             </div>
             <div class="chenillardBtn">
                 <ChenillardBtn />

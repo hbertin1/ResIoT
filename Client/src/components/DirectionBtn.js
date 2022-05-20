@@ -25,7 +25,7 @@ function DirectionBtn() {
     return(
         <button
             onClick={() => directionChenillard()}>
-            { chenillardDirection? "Droite":"Gauche"}
+            { chenillardDirection? "Gauche":"Droite"}
 
         </button>
     )

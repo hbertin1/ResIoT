@@ -6,7 +6,7 @@ const initialState = {
     ledNumber: 0,
     chenillard: {
       state: false,
-      speed: 0, 
+      speed: 30, 
       colorButton: "red",
       direction: true
     },
@@ -37,7 +37,12 @@ export const startStopChenillard = (state) => ({
 export const createServer = (websocket) => ({
   "type": "createServer",
   "server": websocket
-})
+});
+
+export const setValue = (speed) => ({
+  "type": "setSpeed",
+  "speed": speed
+});
 
 function reducer(state = initialState, action) {
   if (action.type === "restart") {
@@ -88,14 +93,8 @@ function reducer(state = initialState, action) {
 
   if(action.type === "reverseChenillard") {
     let currentChenillard = state.chenillard
-    
-    if(action.state === "false"){
-      currentChenillard.direction = false
-    }
-    else{
-      currentChenillard.direction = true
-    }
-    console.log("action state", action.state)
+    currentChenillard.direction = !action.state
+    console.log(currentChenillard.direction)
     return { ...state, chenillard : currentChenillard};
   }
   

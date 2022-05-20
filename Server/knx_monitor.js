@@ -74,7 +74,7 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
-            direction = !direction;
+            changeDirectionChenillard(direction.toString());
           }
           break;
         case '1/0/3':
@@ -315,8 +315,9 @@ function changeSpeedChenillard(new_speed) {
 
 function changeDirectionChenillard(new_direction){
   console.log(new_direction)
-  direction = new_direction;
-  console.log(direction)
+  if(new_direction === 'true') direction = false;
+  else direction = true;
+  console.log(new_direction)
   console.log(json.directionChenillard("chenillard", "reverse", direction))
   sendMessage(json.directionChenillard("chenillard", "reverse", direction))
 }
