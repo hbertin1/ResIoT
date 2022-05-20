@@ -1,5 +1,7 @@
 const { json } = require("express");
 
+//Classe pour les tests avant l'utilisation de la maquette
+
 class Led{
 
     /**

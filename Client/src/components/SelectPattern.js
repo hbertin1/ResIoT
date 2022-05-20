@@ -1,4 +1,3 @@
-import Select from 'react-select'
 import { useState } from 'react'
 
 const axios = require('axios')
@@ -7,13 +6,11 @@ const urlServer = '127.0.0.1:8000'
 function SelectPattern() {
     const patterns = [
         { value: 'chenillard', label: 'CHENILLARD' },
-        { value: 'doubleLed', label: 'DOUBLE' },
         { value: 'full', label: 'FULL' },
         { value: 'K2000', label: 'K200' }
       ]
 
     const handleChange = event => {
-        console.log(event.target.value)
         setSelected(event.target.value)
         axios.get(`http://` + urlServer + `/chenillard?pattern=` + event.target.value)
         .then(response => {

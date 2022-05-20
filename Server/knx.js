@@ -1,6 +1,8 @@
 const {Led} = require('../Server/led.js');
 const {Chenillard} = require('../Server/chenillard.js');
 
+//Classe pour les tests avant l'utilisation de la maquette
+
 const start = process.hrtime.bigint(); // récupère le temps au début du programme 
 
 class Knx{
@@ -27,7 +29,6 @@ class Knx{
             var led = new Led(true, 100, 'white', cmpt);
             this.knx.push(led);
         }
-        console.log(this.knx)
     }
 
      /**

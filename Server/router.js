@@ -52,13 +52,11 @@ router
         knx.switchLed(request.query.id, request.query.signal)                  
         switch (request.query.signal) {   
             case 'on':             //Signal pour allumé la led
-                console.log('Led' + request.query.id + ' ON') 
                 response.send("Ack Led ON")    //Envoi d'un message d'ACK au client
                 // wsServer.send("test")
                 break;
             
             case 'off': //Signal pour éteindre la led
-                console.log('Led' + request.query.id + ' OFF')
                 response.send("Ack Led OFF")    //Envoi d'une message d'ACK au client
                 break;
         }
