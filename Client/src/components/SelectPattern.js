@@ -7,8 +7,8 @@ const urlServer = '127.0.0.1:8000'
 function SelectPattern() {
     const patterns = [
         { value: 'chenillard', label: 'CHENILLARD' },
-        { value: 'DoubleLed', label: 'DOUBLE' },
-        { value: 'Full', label: 'FULL' },
+        { value: 'doubleLed', label: 'DOUBLE' },
+        { value: 'full', label: 'FULL' },
         { value: 'K2000', label: 'K200' }
       ]
 

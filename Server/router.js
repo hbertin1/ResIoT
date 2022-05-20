@@ -43,7 +43,7 @@ router
             response.send("Ack Chenillard direction")
         } 
         if(request.query.pattern){                        //Changement du motif du chenillard
-            var motif = request.query.pattern;
+            var pattern = request.query.pattern;
             knx.startStopChenillard(pattern);
             response.send("Ack Chenillard pattern")
         }
