@@ -34,14 +34,14 @@ export function parseDataRcvd(data) {
                     switch (dataParsed.state) {
                         case 'on':
                             var json = ({
-                                "type": "onOff",
+                                "type": "startStopChenillard",
                                 "state": true
                             });
                             store.dispatch(json)
                             break;
                         case 'off':
                             var json = ({
-                                "type": "onOff",
+                                "type": "startStopChenillard",
                                 "state": false
                             });
                             store.dispatch(json)
