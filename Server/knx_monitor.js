@@ -82,7 +82,9 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
+            if(speed*2>1100) speed = 1100;
             speed = speed*2;
+            sendMessage(json.changeSpeedChenillard(speed))
           }
           break;
         case '1/0/4':
@@ -90,7 +92,9 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
+            if(speed/2<300) speed = 300;
             speed = speed/2;
+            sendMessage(json.changeSpeedChenillard(speed))
           }
           break;
       }
@@ -252,6 +256,7 @@ function initWebSocket(webSocket){
 
 function changeSpeedChenillard(new_speed) {
   speed = (-8*new_speed) + 1000;
+  sendMessage(json.changeSpeedChenillard(speed))
 }
 
 function changeDirectionChenillard(new_direction){

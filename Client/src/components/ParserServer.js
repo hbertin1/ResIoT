@@ -50,6 +50,13 @@ export function parseDataRcvd(data) {
                     });
                     store.dispatch(json)
                     break;
+                case 'changeSpeed':
+                    var json = ({
+                        "type": "setSpeed",
+                        "speed": dataParsed.speed
+                    });
+                    store.dispatch(json)
+                    break;
                 default:
                     console.error("Unknown data received: " + dataParsed)
                     break;

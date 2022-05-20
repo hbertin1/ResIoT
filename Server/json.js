@@ -42,6 +42,10 @@ class Json {
         return JSON.stringify({ "device" : device, "id": id, "action": action, "connect_status": connect_status});
     }
 
+    changeSpeedChenillard(device, speed) {
+        return JSON.stringify({ "device": "chenillard", "action":"changeSpeed", "speed": speed});
+    }
+
 
 }
 

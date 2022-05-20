@@ -8,9 +8,14 @@ import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
 
+const axios = require('axios')
+const urlServer = '127.0.0.1:8000'
+
 const Input = styled(MuiInput)`
   width: 42px;
 `;
+
+// TODO: 
 
 function SliderSpeed() {
 
@@ -22,20 +27,39 @@ function SliderSpeed() {
     // }
 
     const handleSliderChange = (event, newValue) => {
-        setValue(newValue);
+        sendSpeedChenillard(newValue);
     };
 
     const handleInputChange = (event) => {
-        setValue(event.target.value === '' ? '' : Number(event.target.value));
+        // setValue(event.target.value === '' ? '' : Number(event.target.value));
+        sendSpeedChenillard(event.target.value === '' ? '' : Number(event.target.value))
     };
 
     const handleBlur = () => {
         if (value < 0) {
-          setValue(0);
+        //   setValue(0);
+        sendSpeedChenillard(0)
         } else if (value > 100) {
-          setValue(100);
+            console.log(value)
+        //   setValue(100);
+        sendSpeedChenillard(100)
         }
     };
+
+    function sendSpeedChenillard(speed) {
+        setValue(speed);
+        if (value > valueSlider + 5 || value < valueSlider - 5) {
+            axios.get(`http://` + urlServer + `/chenillard?speed=` + speed)
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+            // handle acknowledgment
+        }
+    }
 
     return (
         <Box sx={{ width: 250 }}>
