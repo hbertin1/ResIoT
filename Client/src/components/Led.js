@@ -29,25 +29,11 @@ function Led({ id }) {
     return (<div>
         <ul>
             <li>{id}</li>
-            <li>{<Display id={id} />}</li>
+            <li>{isLedOn ? '🟢' : '🔴'}</li>
             <li><button onClick={() => {
                 sendStateLed(!isLedOn);
-            }}>Led</button></li>
-            {/* A valider debut */}
-            {/* <li>{isLedOn ? '🟢' : '🔴'}</li>
-            <li><button onClick={() => {
-                sendStateLed(true);
-            }}>{() => {
-                if (isLedConnected) {
-                    if (isLedOn) {
-                        return 'Stop';
-                    }
-                    else return 'Start';
-                }
-                else return 'disconnected';
-            }
-                }</button></li> */}
-                {/* A valider fin */}
+            }}>{isLedConnected ? (isLedOn ? 'Stop' : 'Start'): 'Disconnected'}
+            </button></li>
         </ul>
     </div>)
 

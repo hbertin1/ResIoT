@@ -79,6 +79,7 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === "startStopChenillard") {
+    console.log("action state", action.state)
     let currentChenillard = state.chenillard
     currentChenillard.state = action.state
     let currentColor = currentChenillard.colorButton
