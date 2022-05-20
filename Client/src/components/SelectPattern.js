@@ -15,7 +15,7 @@ function SelectPattern() {
     const handleChange = event => {
         console.log(event.target.value)
         setSelected(event.target.value)
-        axios.get(`http://` + urlServer + `/chenillard?pattern=` + selected)
+        axios.get(`http://` + urlServer + `/chenillard?pattern=` + event.target.value)
         .then(response => {
             console.log(response)
         })

@@ -20,6 +20,14 @@ export function parseDataRcvd(data) {
     console.log(dataParsed);
     
     switch (dataParsed.device) {
+        case "all":
+            if(dataParsed.action === "disconnect") {
+                var json = {
+                    "action":"disconnectLeds"
+                }
+                store.dispatch(json)
+                break;
+            }
         case 'chenillard':
             switch (dataParsed.action) {
                 case 'switch':

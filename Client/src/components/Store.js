@@ -56,13 +56,14 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === "addLed") {
-    let led = undefined
-    led = {
+    console.log("addLed")
+    let led = {
       "id": action.id,
       "connected": action.connected,
       "state": false,
       "color": "white"
     }
+    state.ledNumber = state.ledNumber + 1;
     state.leds.splice(action.id-1, 1, led)
   }
 
@@ -103,6 +104,12 @@ function reducer(state = initialState, action) {
     let currentChenillard = state.chenillard;
     currentChenillard.speed = action.speed;
     return { ...state, chenillard:currentChenillard};
+  }
+
+  if(action.type === "disconnectLeds") {
+    state.leds.forEach( led => {
+      led.connected = false;
+    })
   }
 
   return state;

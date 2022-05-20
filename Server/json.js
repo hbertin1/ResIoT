@@ -46,6 +46,9 @@ class Json {
         return JSON.stringify({ "device": "chenillard", "action":"changeSpeed", "speed": speed});
     }
 
+    sendDisconnectMessage() {
+        return JSON.stringify({ "device":"all", "action":"disconnect"});
+    }
 
 }
 

@@ -18,6 +18,7 @@ function Body() {
     // var valueSlider = 0;
 
     function addLeds(ledNumber) {
+        console.log(ledNumber)
         var rows = [];
         for (let i = 1; i <= ledNumber; i++) {
             rows.push(<td><Led id={i} /></td>)
@@ -31,11 +32,11 @@ function Body() {
                 <table>
                     <tr>
                         {/* A VALIDER LE ADDLED() */}
-                        {/* {addLeds(ledNumber)} */}
-                        <td><Led id={1} /></td>
+                        {addLeds(ledNumber)}
+                        {/* <td><Led id={1} /></td>
                         <td><Led id={2} /></td>
                         <td><Led id={3} /></td>
-                        <td><Led id={4} /></td>
+                        <td><Led id={4} /></td> */}
                     </tr>
                 </table>
             </div>}
