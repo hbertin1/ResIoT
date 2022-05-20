@@ -241,37 +241,68 @@ function rChenillardDoubleLed(indexInit, indexFinal, tabLight){
   }, speed);
 }
 
-function switchLedChenillardDoubleLed(index, stateFull) {
-  if(index ==stateFull)
-  tabLight[oldIndex].switchOff();
-  tabLight[indexFinal].switchOn();
-  sendMessage(json.ledKnx("led",indexFinal+1,"switch","on"))
-  sendMessage(json.ledKnx("led",oldIndex+1,"switch","off"))
+
+function switchLedChenillardFull(index, stateFull) {
+  if(stateFull){
+    tabLight[index].switchOff();
+    sendMessage(json.ledKnx("led",index+1,"switch","off"))
+  }
+  else{
+    tabLight[index].switchOn();
+    sendMessage(json.ledKnx("led",index+1,"switch","on"))
+  }
 }
 
 
-function rChenillardFull(newIndex, tabLight , allState){
-  console.log(newIndex)
-  oldIndex = newIndex;
-  allState = allState;
-  console.log(oldIndex)
-  if(oldIndex == tabLight.length-1){
-    allState='off'
-    newIndex = oldIndex-1
+
+function rChenillardFull(newIndex, tabLight, stateFull){
+  oldIndex = newIndex
+  stateFull = stateFull;
+  if(direction){
+    if(!stateFull){
+      if(oldIndex == tabLight.length-1){
+        stateFull=true
+      }
+      else{
+        newIndex = oldIndex+1
+      }
+    }
+    else{
+      if(oldIndex == 0){
+        stateFull = false
+      }
+      else{
+        newIndex = oldIndex-1
+      }
+    }
   }
-  else if(allState='off'){
-    newIndex = oldIndex-1
+  else{
+    if(!stateFull){
+      if(oldIndex == 0){
+        stateFull=true
+      }
+      else{
+        newIndex = oldIndex-1
+      }
+    }
+    else{
+      if(oldIndex == tabLight.length-1){
+        stateFull = false
+      }
+      else{
+        newIndex = oldIndex+1
+      }
+    }
   }
-  else if(oldIndex == 0){
-    allState = 'on'
-    newIndex = oldIndex+1
-  }
+  
   timerId = setTimeout(function(){
-    switchLed(newIndex+1, allState)
-    rChenillard2(newIndex, tabLight)
+    switchLedChenillardFull(newIndex, stateFull)
+    rChenillardFull(newIndex, tabLight, stateFull)
     indexChenillard = newIndex;
-},1000*speed);
+  },speed);
 }
+
+rChenillardFull(0, tabLight, false)
 
 function startStopChenillard() {
   if(timerId === undefined) {
@@ -314,11 +345,8 @@ function changeSpeedChenillard(new_speed) {
 }
 
 function changeDirectionChenillard(new_direction){
-  console.log(new_direction)
   if(new_direction === 'true') direction = false;
   else direction = true;
-  console.log(new_direction)
-  console.log(json.directionChenillard("chenillard", "reverse", direction))
   sendMessage(json.directionChenillard("chenillard", "reverse", direction))
 }
 
