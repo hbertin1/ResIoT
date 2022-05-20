@@ -370,7 +370,7 @@ function startStopChenillard(motif) {
         sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
       }
       break
-    case "chenillardDoubleLed":
+    case "doubleLed":
       if(timerId === undefined) {
         sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
         rChenillardDoubleLed(indexChenillard, indexChenillard+1, tabLight);
@@ -381,7 +381,7 @@ function startStopChenillard(motif) {
         sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
       }
       break
-      case "chenillardFull":
+      case "full":
         if(timerId === undefined) {
           sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
           rChenillardFull(indexChenillard, tabLight, false);
@@ -392,7 +392,7 @@ function startStopChenillard(motif) {
           sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
         }
         break
-      case "chenillardK2000":
+      case "K2000":
         if(timerId === undefined) {
           sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
           rChenillardFull(indexChenillard, tabLight, false, false);
