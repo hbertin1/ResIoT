@@ -49,7 +49,7 @@ var connection = new knx.Connection({
           if (valueparsed.data[0] === 0) {
             //envoie état btn pour websocket
 
-            startStopChenillard();
+            startStopChenillard("chenillard");
           }
           break;
           //     // console.log("test The current light1 status is %j", light1.status);
@@ -192,42 +192,159 @@ function rChenillard(newIndex, tabLight){
   }, speed);
 }
 
+function switchLedChenillardDoubleLed(oldIndex, indexFinal) {
+  tabLight[oldIndex].switchOff();
+  tabLight[indexFinal].switchOn();
+  sendMessage(json.ledKnx("led",indexFinal+1,"switch","on"))
+  sendMessage(json.ledKnx("led",oldIndex+1,"switch","off"))
+}
 
-function rChenillard2(newIndex, tabLight , allState){
-  console.log(newIndex)
-  oldIndex = newIndex;
-  allState = allState;
-  console.log(oldIndex)
+function rChenillardDoubleLed(indexInit, indexFinal, tabLight){
+  oldIndex = indexInit;
   if(oldIndex == tabLight.length-1){
-    allState='off'
-    newIndex = oldIndex-1
+      indexInit = 0;
+      indexFinal = indexFinal+1;
   }
-  else if(allState='off'){
-    newIndex = oldIndex-1
+  else if(oldIndex+1 == tabLight.length-1){
+    indexFinal = 0;
+    indexInit= oldIndex +1;
   }
-  else if(oldIndex == 0){
-    allState = 'on'
-    newIndex = oldIndex+1
+  else {
+    indexInit = oldIndex+1;
+    indexFinal = indexFinal+1;
   }
+  /* LE REVERSE NE FONCTIONNE PAS
+  }
+  else{
+    console.log("indexInit:",indexInit)
+    console.log("indexFinal:",indexFinal)
+    if(oldIndex == 0){
+      indexInit = tabLight.length-1;
+      indexFinal = indexFinal-1;
+    }
+    else if(indexFinal == 0){
+      indexInit = indexInit-1;
+      indexFinal = tabLight.length-1;
+    }
+    else {
+      indexInit = indexInit-1;
+      indexFinal = indexFinal-1
+    }
+  }
+  */
   timerId = setTimeout(function(){
-    switchLed(newIndex+1, allState)
-    rChenillard2(newIndex, tabLight)
-    indexChenillard = newIndex;
-},1000*speed);
+    switchLedChenillardDoubleLed(oldIndex, indexFinal)
+    rChenillardDoubleLed(indexInit, indexFinal, tabLight)
+    /*
+    else{
+      switchLedChenillard2(indexFinal, oldIndex)
+      rChenillard2( indexInit, indexFinal, tabLight);
+    }
+    */
+      indexChenillard = indexInit;
+  }, speed);
+}
+
+
+function switchLedChenillardFull(index, stateFull) {
+  if(stateFull){
+    tabLight[index].switchOff();
+    sendMessage(json.ledKnx("led",index+1,"switch","off"))
+  }
+  else{
+    tabLight[index].switchOn();
+    sendMessage(json.ledKnx("led",index+1,"switch","on"))
+  }
 }
 
 
 
-function startStopChenillard() {
-  if(timerId === undefined) {
-    sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
-    rChenillard(indexChenillard, tabLight);
+function rChenillardFull(newIndex, tabLight, stateFull){
+  oldIndex = newIndex
+  stateFull = stateFull;
+  if(direction){
+    if(!stateFull){
+      if(oldIndex == tabLight.length-1){
+        stateFull=true
+      }
+      else{
+        newIndex = oldIndex+1
+      }
+    }
+    else{
+      if(oldIndex == 0){
+        stateFull = false
+      }
+      else{
+        newIndex = oldIndex-1
+      }
+    }
   }
-  else {
-    clearTimeout(timerId);
-    timerId = undefined;
-    sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+  else{
+    if(!stateFull){
+      if(oldIndex == 0){
+        stateFull=true
+      }
+      else{
+        newIndex = oldIndex-1
+      }
+    }
+    else{
+      if(oldIndex == tabLight.length-1){
+        stateFull = false
+      }
+      else{
+        newIndex = oldIndex+1
+      }
+    }
   }
+  
+  timerId = setTimeout(function(){
+    switchLedChenillardFull(newIndex, stateFull)
+    rChenillardFull(newIndex, tabLight, stateFull)
+    indexChenillard = newIndex;
+  },speed);
+}
+
+function startStopChenillard(motif) {
+  console.log(motif)
+  switch (motif){
+    case "chenillard" :
+      console.log("test")
+      if(timerId === undefined) {
+        sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
+        rChenillard(indexChenillard, tabLight);
+      }
+      else {
+        clearTimeout(timerId);
+        timerId = undefined;
+        sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+      }
+      break
+    case "chenillardDoubleLed":
+      if(timerId === undefined) {
+        sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
+        rChenillardDoubleLed(indexChenillard, indexChenillard+1, tabLight);
+      }
+      else {
+        clearTimeout(timerId);
+        timerId = undefined;
+        sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+      }
+      break
+      case "chenillardFull":
+        if(timerId === undefined) {
+          sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
+          rChenillardFull(indexChenillard, tabLight, false);
+        }
+        else {
+          clearTimeout(timerId);
+          timerId = undefined;
+          sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+        }
+        break
+  }
+  
 }
 
 function sendMessage(json){
@@ -260,11 +377,8 @@ function changeSpeedChenillard(new_speed) {
 }
 
 function changeDirectionChenillard(new_direction){
-  console.log(new_direction)
   if(new_direction === 'true') direction = false;
   else direction = true;
-  console.log(new_direction)
-  console.log(json.directionChenillard("chenillard", "reverse", direction))
   sendMessage(json.directionChenillard("chenillard", "reverse", direction))
 }
 
