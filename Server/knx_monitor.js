@@ -188,8 +188,69 @@ function rChenillard(newIndex, tabLight){
   }, speed);
 }
 
+function switchLedChenillardDoubleLed(oldIndex, indexFinal) {
+  tabLight[oldIndex].switchOff();
+  tabLight[indexFinal].switchOn();
+  sendMessage(json.ledKnx("led",indexFinal+1,"switch","on"))
+  sendMessage(json.ledKnx("led",oldIndex+1,"switch","off"))
+}
 
-function rChenillard2(newIndex, tabLight , allState){
+function rChenillardDoubleLed(indexInit, indexFinal, tabLight){
+  oldIndex = indexInit;
+  if(oldIndex == tabLight.length-1){
+      indexInit = 0;
+      indexFinal = indexFinal+1;
+  }
+  else if(oldIndex+1 == tabLight.length-1){
+    indexFinal = 0;
+    indexInit= oldIndex +1;
+  }
+  else {
+    indexInit = oldIndex+1;
+    indexFinal = indexFinal+1;
+  }
+  /* LE REVERSE NE FONCTIONNE PAS
+  }
+  else{
+    console.log("indexInit:",indexInit)
+    console.log("indexFinal:",indexFinal)
+    if(oldIndex == 0){
+      indexInit = tabLight.length-1;
+      indexFinal = indexFinal-1;
+    }
+    else if(indexFinal == 0){
+      indexInit = indexInit-1;
+      indexFinal = tabLight.length-1;
+    }
+    else {
+      indexInit = indexInit-1;
+      indexFinal = indexFinal-1
+    }
+  }
+  */
+  timerId = setTimeout(function(){
+    switchLedChenillardDoubleLed(oldIndex, indexFinal)
+    rChenillardDoubleLed(indexInit, indexFinal, tabLight)
+    /*
+    else{
+      switchLedChenillard2(indexFinal, oldIndex)
+      rChenillard2( indexInit, indexFinal, tabLight);
+    }
+    */
+      indexChenillard = indexInit;
+  }, speed);
+}
+
+function switchLedChenillardDoubleLed(index, stateFull) {
+  if(index ==stateFull)
+  tabLight[oldIndex].switchOff();
+  tabLight[indexFinal].switchOn();
+  sendMessage(json.ledKnx("led",indexFinal+1,"switch","on"))
+  sendMessage(json.ledKnx("led",oldIndex+1,"switch","off"))
+}
+
+
+function rChenillardFull(newIndex, tabLight , allState){
   console.log(newIndex)
   oldIndex = newIndex;
   allState = allState;
@@ -211,8 +272,6 @@ function rChenillard2(newIndex, tabLight , allState){
     indexChenillard = newIndex;
 },1000*speed);
 }
-
-
 
 function startStopChenillard() {
   if(timerId === undefined) {
