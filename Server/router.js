@@ -42,10 +42,10 @@ router
             knx.changeDirectionChenillard(directionChe);           
             response.send("Ack Chenillard direction")
         } 
-        if(request.query.motif){                        //Changement du motif du chenillard
-            var motif = request.query.motif;
-            knx.startStopChenillard(motif);
-            response.send("Ack Chenillard motif")
+        if(request.query.pattern){                        //Changement du motif du chenillard
+            var pattern = request.query.pattern;
+            knx.startStopChenillard(pattern);
+            response.send("Ack Chenillard pattern")
         }
     })
     .get('/led', (request, response) => {                       //Réception des commandes sur les Leds
