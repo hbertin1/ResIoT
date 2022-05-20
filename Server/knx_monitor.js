@@ -300,8 +300,10 @@ function sendMessage(json) {
 
 function initWebSocket(webSocket) {
   ws = webSocket;
-  for (var i = 1; i < tabLight.length + 1; i++) {
-    sendMessage(json.ledConnection("led", i, "addLed", "connected"));
+  if (ws) {
+    for (var i = 1; i < tabLight.length + 1; i++) {
+      sendMessage(json.ledConnection("led", i, "addLed", "connected"));
+    }
   }
 }
 
@@ -317,7 +319,7 @@ function changeDirectionChenillard(new_direction) {
 }
 
 function changePattern(pattern) {
-  motif = pattern; 
+  motif = pattern;
 }
 
 exitHook(cb => {
