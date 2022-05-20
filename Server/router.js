@@ -42,7 +42,7 @@ router
             var directionChe = request.query.direction;              //direction du chenillard (true = right, false = left)    
             knx.changeDirectionChenillard(directionChe);           
             response.send("Ack Chenillard direction")
-        } 
+        }
     })
     .get('/led', (request, response) => {                       //Réception des commandes sur les Leds
         knx.switchLed(request.query.id, request.query.signal)                  

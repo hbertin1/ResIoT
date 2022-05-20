@@ -4,11 +4,10 @@ import { useSelector } from 'react-redux';
 import DirectionBtn from './DirectionBtn';
 // import { useSelector } from 'react-redux';
 import { parseDataRcvd } from './ParserServer';
-import Slider from '@mui/material/Slider';
 // import { useDispatch } from 'react-redux';
 import { addLed } from './Store';
 import SliderSpeed from './SliderSpeed';
-
+import SelectPattern from './SelectPattern';
 
 const axios = require('axios')
 const urlServer = '127.0.0.1:8000'
@@ -25,22 +24,6 @@ function Body() {
         }
         return rows;
     }
-
-    // function handleSliderChange(event, value) {
-    //     if (value > valueSlider + 10 || value < valueSlider - 10) {
-    //         console.log(value);
-    //         axios.get(`http://` + urlServer + `/chenillard?speed=` + value)
-    //             .then(response => {
-    //                 console.log(response)
-    //             })
-    //             .catch(function (error) {
-    //                 // handle error
-    //                 console.log(error);
-    //             })
-    //         // handle acknowledgment
-    //     }
-    //     valueSlider = value;
-    // }
 
     return (
         <div class="tableChenillard">
@@ -62,6 +45,7 @@ function Body() {
                     onChange={handleSliderChange}
                 /> */}
                 <SliderSpeed />
+                <SelectPattern />
             </div>
             <div class="chenillardBtn">
                 <ChenillardBtn />
