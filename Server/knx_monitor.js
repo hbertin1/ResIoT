@@ -49,7 +49,7 @@ var connection = new knx.Connection({
           if (valueparsed.data[0] === 0) {
             //envoie état btn pour websocket
 
-            startStopChenillard();
+            startStopChenillard("chenillard");
           }
           break;
           //     // console.log("test The current light1 status is %j", light1.status);
@@ -82,7 +82,7 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
-            speed = speed*2;
+            speed = speed*0.1;
           }
           break;
         case '1/0/4':
@@ -302,18 +302,45 @@ function rChenillardFull(newIndex, tabLight, stateFull){
   },speed);
 }
 
-rChenillardFull(0, tabLight, false)
-
-function startStopChenillard() {
-  if(timerId === undefined) {
-    sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
-    rChenillard(indexChenillard, tabLight);
+function startStopChenillard(motif) {
+  console.log(motif)
+  switch (motif){
+    case "chenillard" :
+      console.log("test")
+      if(timerId === undefined) {
+        sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
+        rChenillard(indexChenillard, tabLight);
+      }
+      else {
+        clearTimeout(timerId);
+        timerId = undefined;
+        sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+      }
+      break
+    case "chenillardDoubleLed":
+      if(timerId === undefined) {
+        sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
+        rChenillardDoubleLed(indexChenillard, indexChenillard+1, tabLight);
+      }
+      else {
+        clearTimeout(timerId);
+        timerId = undefined;
+        sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+      }
+      break
+      case "chenillardFull":
+        if(timerId === undefined) {
+          sendMessage(json.chenillardKnx("chenillard", "switch", "on"))
+          rChenillardFull(indexChenillard, tabLight, false);
+        }
+        else {
+          clearTimeout(timerId);
+          timerId = undefined;
+          sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
+        }
+        break
   }
-  else {
-    clearTimeout(timerId);
-    timerId = undefined;
-    sendMessage(json.chenillardKnx("chenillard", "switch", "off"))
-  }
+  
 }
 
 function sendMessage(json){
