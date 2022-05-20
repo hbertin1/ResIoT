@@ -6,7 +6,7 @@ const json = new Json();
 
 var connection = new knx.Connection({
   // ip address and port of the KNX router or interface
-  ipAddr: '192.168.0.202', ipPort: 3671,
+  ipAddr: '192.168.0.201', ipPort: 3671,
   // in case you need to specify the multicast interface (say if you have more than one)
   // interface: 'utun2',
   // the KNX physical address we'd like to use
@@ -74,7 +74,7 @@ var connection = new knx.Connection({
           valueparsed = JSON.parse(valueStringified);
           console.log("value parsed ", valueparsed.data[0]);
           if (valueparsed.data[0] === 0) {
-            direction = !direction;
+            changeDirectionChenillard(direction.toString());
           }
           break;
         case '1/0/3':
@@ -256,8 +256,9 @@ function changeSpeedChenillard(new_speed) {
 
 function changeDirectionChenillard(new_direction){
   console.log(new_direction)
-  direction = new_direction;
-  console.log(direction)
+  if(new_direction === 'true') direction = false;
+  else direction = true;
+  console.log(new_direction)
   console.log(json.directionChenillard("chenillard", "reverse", direction))
   sendMessage(json.directionChenillard("chenillard", "reverse", direction))
 }
