@@ -21,11 +21,9 @@ function ChenillardBtn() {
                 console.log(response)
             })
             .catch(function (error) {
-                // handle error
                 console.log(error);
             })
 
-        // handle acknowledgment
         return res;
     }
     return(

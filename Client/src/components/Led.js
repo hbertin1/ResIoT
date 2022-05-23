@@ -1,4 +1,3 @@
-import Display from './Display'
 import { useSelector } from 'react-redux'
 
 const axios = require('axios')

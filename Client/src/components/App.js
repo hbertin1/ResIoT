@@ -1,6 +1,5 @@
 import Banner from './Banner'
 import Body from './Body'
-import Display from './Display'
 import { useDispatch } from 'react-redux';
 import { addLed } from './Store';
 

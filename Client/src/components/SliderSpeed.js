@@ -15,8 +15,6 @@ const Input = styled(MuiInput)`
   width: 42px;
 `;
 
-// TODO: 
-
 function SliderSpeed() {
 
     const [value, setValue] = React.useState(30);
