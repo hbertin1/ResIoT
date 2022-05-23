@@ -13,6 +13,7 @@ Le projet nécessite un compteur électrique avec le standard KNX et d'une passe
 La passerelle Wi-Fi et le serveur doivent être sur le même réseau afin de pouvoir communiquer.  
 
 # Installation 
+Il est nécessaire de télécharger l'ensemble fichiers du projet. Plusieurs modules devront être à télécharger tel que react, yarn, NodeJs ou encore knx. 
 
 # Lancement du serveur web 
 
@@ -28,10 +29,10 @@ La passerelle Wi-Fi et le serveur doivent être sur le même réseau afin de pou
 
 # Auteurs
 Le projet a été réalisé dans le cadre du module RESIoT de la deuxième année de l'ESIR, option IoT. 
-Réalisé par :
-    - Hugo Bertin 
-    - Adrien Bodin
+*Réalisé par :
+    **Hugo Bertin** 
+    **Adrien Bodin**
 
-Encadré par :
-    - Elyes Cherfa 
-    - Johann Bourcier 
+*Encadré par :
+    **Elyes Cherfa**
+    **Johann Bourcier** 
