@@ -30,8 +30,10 @@ Dans ce projet il est possible de commander les leds directement sur la maquette
 # Auteurs
 Le projet a été réalisé dans le cadre du module RESIoT de la deuxième année de l'ESIR, option IoT. 
 Réalisé par :
-    **Hugo Bertin** 
+    **Hugo Bertin** <!---->
     **Adrien Bodin**
+
+
 
 Encadré par :
     **Elyes Cherfa**
