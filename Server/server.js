@@ -13,7 +13,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 8000;
 const wsServer = new ws.Server({ noServer: true });
-knx.initWebSocket(wsServer);
+
+knx.initWebSocket(wsServer); //Permet de récupérer la socket pour le KNX
 
 wsServer.on('connection', socket => {
   socket.on('message', function (data) {

@@ -5,7 +5,6 @@ const router = express.Router();
 const ws = require('ws');
 const { Led } = require('../Server/led.js');
 const { Chenillard } = require('./chenillard.js');
-const wsServer = require('./serverWebsocket.js');
 
 module.exports = router;
 
