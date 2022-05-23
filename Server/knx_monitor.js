@@ -133,6 +133,7 @@ function switchLedChenillard(oldIndex, newIndex) {
   sendMessage(json.ledKnx("led", oldIndex + 1, "switch", "off"))
 }
 
+//Motif classique du chenillard
 function rChenillard(newIndex, tabLight) {
   oldIndex = newIndex;
   if (direction) {
@@ -169,6 +170,7 @@ function switchLedChenillardFull(index, stateFull) {
   }
 }
 
+//Second motif du chenillard
 function rChenillardFull(newIndex, tabLight, stateFull) {
   oldIndex = newIndex
   stateFull = stateFull;
@@ -226,7 +228,7 @@ function switchLedChenillardK2000(index, stateFull) {
   }
 }
 
-
+//Troisième motif du chenillard
 function rChenillardk2000(newIndex, tabLight, stateFull, changeDirection) {
   oldIndex = newIndex
   stateFull = stateFull;
@@ -266,6 +268,7 @@ function rChenillardk2000(newIndex, tabLight, stateFull, changeDirection) {
   }, speed);
 }
 
+//Démarre le chenillard en fonction du motif ou arrete le chenillard
 function startStopChenillard() {
   if (timerId === undefined) {
     switch (motif) {
@@ -292,12 +295,14 @@ function startStopChenillard() {
 
 }
 
+//Permet d'envoyer un json en websocket
 function sendMessage(json) {
   ws.clients.forEach(client => {
     client.send(json)
   })
 }
 
+//Initialise le websocket et envoie au client le nombre de led connecté au KNX
 function initWebSocket(webSocket) {
   ws = webSocket;
   if (ws) {
@@ -307,21 +312,25 @@ function initWebSocket(webSocket) {
   }
 }
 
+//Change la vitesse du chenillard et envoie la vitesse au client
 function changeSpeedChenillard(new_speed) {
   speed = (-8 * new_speed) + 1000;
   sendMessage(json.changeSpeedChenillard(speed))
 }
 
+//Change la direction du chenillard et l'envoie au client 
 function changeDirectionChenillard(new_direction) {
   if (new_direction === 'true') direction = false;
   else direction = true;
   sendMessage(json.directionChenillard("chenillard", "reverse", direction))
 }
 
+//Change le motif du chenillard
 function changePattern(pattern) {
   motif = pattern;
 }
 
+//Déconnexion de la maquette KNX et éteinds toutes les leds
 exitHook(cb => {
   console.log('Disconnecting from KNX…');
   tabLight.forEach(light => {
