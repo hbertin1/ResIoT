@@ -8,3 +8,30 @@ Dans ce projet il est possible :
                 - De modifier la vitesse du chenillard.
                 - De contrôler le chenillard à partir des boutons de la maquette KNX.  
 
+# Pré-requis
+Le projet nécessite un compteur électrique avec le standard KNX et d'une passerelle Wi-Fi. De plus, plusieurs LEDS doivent être reliées à ce compteur. 
+La passerelle Wi-Fi et le serveur doivent être sur le même réseau afin de pouvoir communiquer.  
+
+# Installation 
+
+# Lancement du serveur web 
+
+# Lancement du site web 
+
+# Utilisation du site web
+
+# Utilisation de la maquette KNX
+
+# Architecture du Back End
+
+# Architecture du Front End
+
+# Auteurs
+Le projet a été réalisé dans le cadre du module RESIoT de la deuxième année de l'ESIR, option IoT. 
+Réalisé par :
+    - Hugo Bertin 
+    - Adrien Bodin
+
+Encadré par :
+    - Elyes Cherfa 
+    - Johann Bourcier 
